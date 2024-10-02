@@ -1,0 +1,162 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             AIRCRConfig, CODE, READONLY
+    2 00000000 400000C8 
+                       AIRCR   EQU              0x400000C8
+    3 00000000 40000000 
+                       RAMSTART
+                               EQU              0x40000000
+    4 00000000         
+    5 00000000         start
+    6 00000000 E59FD070        LDR              sp, =RAMSTART
+    7 00000004 E3A0300F        LDR              r3, =0x0F   ; 4 bits wide
+    8 00000008 E3A04004        MOV              r4, #0x4    ; priority group nu
+                                                            mber
+    9 0000000C E3A0504A        LDR              r5, =0x4A   ; 0100 1010 (IRQ)
+   10 00000010 EB000002        BL               set_priority_group_number
+   11 00000014 EB00000A        BL               read_priority_group_number
+   12 00000018 EB00000F        BL               pri_subpri_number
+   13 0000001C EAFFFFFE 
+                       stop    B                stop
+   14 00000020         
+   15 00000020         
+   16 00000020         ; 3(1) set the priority group number to AIRCR register (
+                       using empty ascending stack to recover register)
+   17 00000020         set_priority_group_number
+   18 00000020         ; use empty ascending stack to recover register
+   19 00000020 E8AD4017        STMEA            sp!, {r0, r1, r2, r4, lr}
+   20 00000024 E59F0050        LDR              r0, =AIRCR  ; assuming AIRCR re
+                                                            gister at 0x400000C
+                                                            8
+   21 00000028 E5901000        LDR              r1, [r0]
+   22 0000002C E3C11C07        BIC              r1, #0x700
+   23 00000030 E3A02C01        MOV              r2, #0X100
+   24 00000034 E0040492        MUL              r4, r2, r4  ;r4 = 0x400
+   25 00000038 E1811004        ORR              r1, r1, r4
+   26 0000003C E5801000        STR              r1, [r0]
+   27 00000040 E93D8017        LDMEA            sp!, {r0, r1, r2, r4, pc}
+   28 00000044         
+   29 00000044         
+   30 00000044         ; 3(2) read the priority group number from AIRCR registe
+                       r (using full ascending stack to recover register)
+   31 00000044         read_priority_group_number
+   32 00000044 E9AD4007        STMFA            sp!, {r0, r1, r2, lr}
+   33 00000048 E59F002C        LDR              r0, =AIRCR
+   34 0000004C E5901000        LDR              r1, [r0]
+   35 00000050 E1A01421        LSR              r1, #8
+   36 00000054 E2011007        AND              r1, #7
+   37 00000058 E83D8007        LDMFA            sp!, {r0, r1, r2, pc}
+   38 0000005C         
+   39 0000005C         
+   40 0000005C         ; 3(3) get pre-emption priority and sub-priority of IRQ 
+                       from AIRCR register (using empty descending stack to rec
+                       over register)
+   41 0000005C         
+   42 0000005C         pri_subpri_number
+   43 0000005C E82D4078        STMED            sp!, {r3, r4, r5, r6, lr}
+   44 00000060 E1C55003        BIC              r5, r5, r3  ;subpriority(r5)
+   45 00000064 E2844001        ADD              r4, #1
+   46 00000068 E1A06005        MOV              r6, r5
+   47 0000006C E1A06436        LSR              r6, r4
+   48 00000070 E1A06416        LSL              r6, r4      ;group priority(r6)
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+                                                            
+   49 00000074 E9BD8078        LDMED            sp!, {r3, r4, r5, r6, pc}
+   50 00000078         
+   51 00000078         
+   52 00000078                 END
+              40000000 
+              400000C8 
+Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\o
+bjects\prog3.d -o.\objects\prog3.o -IC:\Keil_v5\ARM\RV31\INC -IC:\Keil_v5\ARM\C
+MSIS\Include -IC:\Keil_v5\ARM\INC\Philips --predefine="__EVAL SETA 1" --predefi
+ne="__UVISION_VERSION SETA 528" --list=.\listings\prog3.lst prog3.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+AIRCRConfig 00000000
+
+Symbol: AIRCRConfig
+   Definitions
+      At line 1 in file prog3.s
+   Uses
+      None
+Comment: AIRCRConfig unused
+pri_subpri_number 0000005C
+
+Symbol: pri_subpri_number
+   Definitions
+      At line 42 in file prog3.s
+   Uses
+      At line 12 in file prog3.s
+Comment: pri_subpri_number used once
+read_priority_group_number 00000044
+
+Symbol: read_priority_group_number
+   Definitions
+      At line 31 in file prog3.s
+   Uses
+      At line 11 in file prog3.s
+Comment: read_priority_group_number used once
+set_priority_group_number 00000020
+
+Symbol: set_priority_group_number
+   Definitions
+      At line 17 in file prog3.s
+   Uses
+      At line 10 in file prog3.s
+Comment: set_priority_group_number used once
+start 00000000
+
+Symbol: start
+   Definitions
+      At line 5 in file prog3.s
+   Uses
+      None
+Comment: start unused
+stop 0000001C
+
+Symbol: stop
+   Definitions
+      At line 13 in file prog3.s
+   Uses
+      At line 13 in file prog3.s
+Comment: stop used once
+6 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+AIRCR 400000C8
+
+Symbol: AIRCR
+   Definitions
+      At line 2 in file prog3.s
+   Uses
+      At line 20 in file prog3.s
+      At line 33 in file prog3.s
+
+RAMSTART 40000000
+
+Symbol: RAMSTART
+   Definitions
+      At line 3 in file prog3.s
+   Uses
+      At line 6 in file prog3.s
+Comment: RAMSTART used once
+2 symbols
+342 symbols in table

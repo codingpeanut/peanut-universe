@@ -1,0 +1,129 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             PreTest4, CODE, READONLY
+    2 00000000                 ENTRY
+    3 00000000         
+    4 00000000         ; Load immediate values into registers
+    5 00000000 E59F007C        LDR              r0, =0x8765ABCD ; in 0x40000000
+                                                            
+    6 00000004 E59F107C        LDR              r1, =0xABCD8765 ; in 0x40000004
+                                                            
+    7 00000008 E59F207C        LDR              r2, =0xFACEBEEF ; in 0x40000008
+                                                            
+    8 0000000C E59F307C        LDR              r3, =0xDEADBEEF ; in 0x4000000C
+                                                            
+    9 00000010         
+   10 00000010         ; Load base addresses into registers
+   11 00000010 E3A06101        LDR              r6, =0x40000000
+   12 00000014 E3A07111        LDR              r7, =0x40000004
+   13 00000018 E3A08121        LDR              r8, =0x40000008
+   14 0000001C E3A09131        LDR              r9, =0x4000000C
+   15 00000020         
+   16 00000020         ; Store values in memory
+   17 00000020 E5860000        STR              r0, [r6]
+   18 00000024 E5871000        STR              r1, [r7]
+   19 00000028 E5882000        STR              r2, [r8]
+   20 0000002C E5893000        STR              r3, [r9]
+   21 00000030         
+   22 00000030         ; Load values from memory back into registers
+   23 00000030 E5960000        LDR              r0, [r6]
+   24 00000034 E5971000        LDR              r1, [r7]
+   25 00000038 E5982000        LDR              r2, [r8]
+   26 0000003C E5993000        LDR              r3, [r9]
+   27 00000040         
+   28 00000040         ; Calculate parity for r0 and update r2
+   29 00000040         ; calculate checksum bit using bits 9876543210
+   30 00000040         ;                * * * * *
+   31 00000040         ; r4 is temp
+   32 00000040         ; r0 is value of 0x40000000 (0x8765ABCD)
+   33 00000040         ; r2 is value of 0x40000008 (0xFACEBEEF)
+   34 00000040 E1A040E0        ROR              r4, r0, #1  ; d1
+   35 00000044 E02441E0        EOR              r4, r4, r0, ROR #3 ; d1 XOR d3
+   36 00000048 E02442E0        EOR              r4, r4, r0, ROR #5 
+                                                            ; d1 XOR d3 XOR d5
+   37 0000004C E02443E0        EOR              r4, r4, r0, ROR #7 ; d1 XOR d3 
+                                                            XOR d5 XOR d7
+   38 00000050 E02444E0        EOR              r4, r4, r0, ROR #9 ; d1 XOR d3 
+                                                            XOR d5 XOR d7 XOR d
+                                                            9
+   39 00000054 E2044001        AND              r4, r4, #1  ; isolate bit (lowe
+                                                            st bit)
+   40 00000058         ; for even parity
+   41 00000058         ; if r4 == 1 -> set bit12 = 1
+   42 00000058         ; if r4 == 0 -> set bit12 = 0
+   43 00000058 E1822604        ORR              r2, r2, r4, LSL #12 ; set bit12
+                                                            (0x40000008) = r4
+   44 0000005C         
+   45 0000005C         ; Store updated value in memory
+   46 0000005C E5882000        STR              r2, [r8]
+   47 00000060         
+   48 00000060         ; Calculate parity for r1 and update r3
+   49 00000060         ; calculate checksum bit using bits 9876543210
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   50 00000060         ;                 * * * *
+   51 00000060         ; r5 is temp
+   52 00000060         ; r1 is value of 0x40000004 (0xABCD8765)
+   53 00000060         ; r3 is value of 0x4000000C (0xDEADBEEF)
+   54 00000060 E1A05161        ROR              r5, r1, #2  ; d2
+   55 00000064 E0255261        EOR              r5, r5, r1, ROR #4 ; d2 XOR d4
+   56 00000068 E0255361        EOR              r5, r5, r1, ROR #6 
+                                                            ; d2 XOR d4 XOR d6
+   57 0000006C E0255461        EOR              r5, r5, r1, ROR #8 ; d2 XOR d4 
+                                                            XOR d6 XOR d8
+   58 00000070 E2055001        AND              r5, r5, #1  ; isolate bit (lowe
+                                                            st bit)
+   59 00000074         ; for odd parity
+   60 00000074 E2255001        EOR              r5, r5, #1  ; if r5 == 1 -> set
+                                                             bit15 = 0
+   61 00000078         ; if r5 == 0 -> set bit15 = 1
+   62 00000078 E1833785        ORR              r3, r3, r5, LSL #15 ; set bit15
+                                                            (0x4000000C) = r5
+   63 0000007C         
+   64 0000007C         ; Store updated value in memory
+   65 0000007C E5893000        STR              r3, [r9]
+   66 00000080         
+   67 00000080 EAFFFFFE 
+                       stop    B                stop
+   68 00000084         
+   69 00000084                 END
+              8765ABCD 
+              ABCD8765 
+              FACEBEEF 
+              DEADBEEF 
+Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\o
+bjects\prog1.d -o.\objects\prog1.o -IC:\Keil_v5\ARM\RV31\INC -IC:\Keil_v5\ARM\C
+MSIS\Include -IC:\Keil_v5\ARM\INC\Philips --predefine="__EVAL SETA 1" --predefi
+ne="__UVISION_VERSION SETA 528" --list=.\listings\prog1.lst prog1.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+PreTest4 00000000
+
+Symbol: PreTest4
+   Definitions
+      At line 1 in file prog1.s
+   Uses
+      None
+Comment: PreTest4 unused
+stop 00000080
+
+Symbol: stop
+   Definitions
+      At line 67 in file prog1.s
+   Uses
+      At line 67 in file prog1.s
+Comment: stop used once
+2 symbols
+336 symbols in table

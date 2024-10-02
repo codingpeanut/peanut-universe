@@ -1,0 +1,149 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             HAMMING, CODE
+    2 00000000                 ENTRY
+    3 00000000         
+    4 00000000         ; Registers used:
+    5 00000000         ; r0 is current data
+    6 00000000         ; r1 is current ldr address
+    7 00000000         ; r2 is value to be transmitted
+    8 00000000         ; r4 is temp
+    9 00000000         ; r5 is current str address
+   10 00000000         
+   11 00000000 E3A04000        MOV              r4, #0
+   12 00000004 E28F1098        ADR              r1, arraya  ; current ldr addre
+                                                            ss
+   13 00000008 E3A05101        LDR              r5, =0x40000000 ; current str a
+                                                            ddress
+   14 0000000C         
+   15 0000000C         ; 411440521 JoshLee
+   16 0000000C E3550119 
+                       loop    CMP              r5, #0x40000006
+   17 00000010 E5D10000        LDRB             r0, [r1]    ; current data
+   18 00000014         
+   19 00000014         ;---------- calculate c0 ----------; 411440521 JoshLee
+   20 00000014 E1A04000        MOV              r4, r0
+   21 00000018 E02440E0        EOR              r4, r4, r0, ROR #1 ; 1 XOR 0
+   22 0000001C E02441E0        EOR              r4, r4, r0, ROR #3 
+                                                            ; 3 XOR 1 XOR 0
+   23 00000020 E0244260        EOR              r4, r4, r0, ROR #4 ; 4 XOR 3 XO
+                                                            R 1 XOR 0
+   24 00000024 E0244360        EOR              r4, r4, r0, ROR #6 ; 6 XOR 4 XO
+                                                            R 3 XOR 1 XOR 0
+   25 00000028 E2042001        AND              r2, r4, #1
+   26 0000002C         
+   27 0000002C         ;---------- calculate c1 ----------; 411440521 JoshLee
+   28 0000002C E1A04000        MOV              r4, r0
+   29 00000030 E0244160        EOR              r4, r4, r0, ROR #2 ; 2 XOR 0
+   30 00000034 E02441E0        EOR              r4, r4, r0, ROR #3 
+                                                            ; 3 XOR 2 XOR 0
+   31 00000038 E02442E0        EOR              r4, r4, r0, ROR #5 ; 5 XOR 3 XO
+                                                            R 2 XOR 0
+   32 0000003C E0244360        EOR              r4, r4, r0, ROR #6 ; 6 XOR 5 XO
+                                                            R 3 XOR 2 XOR 0
+   33 00000040 E2044001        AND              r4, r4, #1
+   34 00000044 E1822084        ORR              r2, r2, r4, LSL #1
+   35 00000048         
+   36 00000048         ;---------- calculate c2 ----------; 411440521 JoshLee
+   37 00000048 E1A040E0        ROR              r4, r0, #1  ; get bit 1
+   38 0000004C E0244160        EOR              r4, r4, r0, ROR #2 ; 2 XOR 1
+   39 00000050 E02441E0        EOR              r4, r4, r0, ROR #3 
+                                                            ; 3 XOR 2 XOR 1
+   40 00000054 E02443E0        EOR              r4, r4, r0, ROR #7 ; 7 XOR 3 XO
+                                                            R 2 XOR 1
+   41 00000058 E2044001        AND              r4, r4, #1
+   42 0000005C E1822EE4        ORR              r2, r2, r4, ROR #29
+   43 00000060         
+   44 00000060         ;---------- calculate c3 ----------; 411440521 JoshLee
+   45 00000060 E1A04260        ROR              r4, r0, #4  ; get bit 4
+   46 00000064 E02442E0        EOR              r4, r4, r0, ROR #5 ; 5 XOR 4
+   47 00000068 E0244360        EOR              r4, r4, r0, ROR #6 
+                                                            ; 6 XOR 5 XOR 4
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   48 0000006C E02443E0        EOR              r4, r4, r0, ROR #7 ; 7 XOR 6 XO
+                                                            R 5 XOR 4
+   49 00000070 E2044001        AND              r4, r4, #1
+   50 00000074         
+   51 00000074         ;---------- compose data ----------; 411440521 JoshLee
+   52 00000074 E1822CE4        ORR              r2, r2, r4, ROR #25
+   53 00000078 E2004001        AND              r4, r0, #1
+   54 0000007C E1822104        ORR              r2, r2, r4, LSL #2
+   55 00000080 E3C040F1        BIC              r4, r0, #0xF1
+   56 00000084 E1822184        ORR              r2, r2, r4, LSL #3
+   57 00000088 E3C0400F        BIC              r4, r0, #0x0F
+   58 0000008C E1822204        ORR              r2, r2, r4, LSL #4
+   59 00000090         
+   60 00000090 E1C520B0        STRH             r2, [r5]    ; store transmitted
+                                                             value
+   61 00000094         
+   62 00000094         ; update current data address
+   63 00000094 E2811001        ADD              r1, #1      ; shift to new data
+                                                            
+   64 00000098 E2855002        ADD              r5, #2      ; shift two bytes f
+                                                            or next 12bits
+   65 0000009C         
+   66 0000009C 1AFFFFDA        BNE              loop
+   67 000000A0         
+   68 000000A0 EAFFFFFE 
+                       done    B                done
+   69 000000A4                 ALIGN
+   70 000000A4         arraya
+   71 000000A4 B5              DCB              0xB5
+   72 000000A5 AA              DCB              0xAA
+   73 000000A6 55              DCB              0x55
+   74 000000A7 AA              DCB              0xAA
+   75 000000A8         
+   76 000000A8                 END
+Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\o
+bjects\prog1.d -o.\objects\prog1.o -IC:\Keil_v5\ARM\RV31\INC -IC:\Keil_v5\ARM\C
+MSIS\Include -IC:\Keil_v5\ARM\INC\Philips --predefine="__EVAL SETA 1" --predefi
+ne="__UVISION_VERSION SETA 528" --list=.\listings\prog1.lst prog1.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+HAMMING 00000000
+
+Symbol: HAMMING
+   Definitions
+      At line 1 in file prog1.s
+   Uses
+      None
+Comment: HAMMING unused
+arraya 000000A4
+
+Symbol: arraya
+   Definitions
+      At line 70 in file prog1.s
+   Uses
+      At line 12 in file prog1.s
+Comment: arraya used once
+done 000000A0
+
+Symbol: done
+   Definitions
+      At line 68 in file prog1.s
+   Uses
+      At line 68 in file prog1.s
+Comment: done used once
+loop 0000000C
+
+Symbol: loop
+   Definitions
+      At line 16 in file prog1.s
+   Uses
+      At line 66 in file prog1.s
+Comment: loop used once
+4 symbols
+336 symbols in table

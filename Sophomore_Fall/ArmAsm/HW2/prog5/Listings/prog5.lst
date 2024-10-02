@@ -1,0 +1,53 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;---------------------------------------
+    2 00000000         ;  Author: 411440521 JoshLee  
+    3 00000000         ;  Date: 2023/10/27    
+    4 00000000         ;---------------------------------------
+    5 00000000                 AREA             prog5, CODE, READONLY
+    6 00000000                 ENTRY
+    7 00000000         
+    8 00000000 E3A03101        LDR              R3, =0x40000000
+    9 00000004 E59F6008        LDR              R6, =0xDEADBEEF
+   10 00000008         
+   11 00000008 E5836000        STR              r6, [r3]
+   12 0000000C E5D34000        LDRB             r4, [r3]
+   13 00000010         
+   14 00000010         ; R4 is the answer
+   15 00000010         
+   16 00000010 EAFFFFFE 
+                       stop    B                stop
+   17 00000014                 END
+              DEADBEEF 
+Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\o
+bjects\prog5.d -o.\objects\prog5.o -IC:\Keil_v5\ARM\RV31\INC -IC:\Keil_v5\ARM\C
+MSIS\Include -IC:\Keil_v5\ARM\INC\Philips --predefine="__EVAL SETA 1" --predefi
+ne="__UVISION_VERSION SETA 528" --list=.\listings\prog5.lst prog5.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+prog5 00000000
+
+Symbol: prog5
+   Definitions
+      At line 5 in file prog5.s
+   Uses
+      None
+Comment: prog5 unused
+stop 00000010
+
+Symbol: stop
+   Definitions
+      At line 16 in file prog5.s
+   Uses
+      At line 16 in file prog5.s
+Comment: stop used once
+2 symbols
+336 symbols in table

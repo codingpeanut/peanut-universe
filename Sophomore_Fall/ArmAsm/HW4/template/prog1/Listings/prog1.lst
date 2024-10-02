@@ -1,0 +1,247 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             HW4, CODE, READONLY
+    2 00000000                 ENTRY
+    3 00000000         
+    4 00000000         ;-------------------------------------------------------
+                       ----------
+    5 00000000         ;   Correct  8 bits = 0xB5        0b10110101 
+    6 00000000         ;   Correct 12 bits = BA6         0b101110100110
+    7 00000000         ;   Wrong   C0      = BA7         0b101110100111
+    8 00000000         ;   Wrong   C1      = BA4         0b101110100100
+    9 00000000         ;   Wrong   C2      = BAE         0b101110101110
+   10 00000000         ;   Wrong   C3      = B26         0b101100100110
+   11 00000000         ;   Wrong   C0 C2   = BB6         0b101110110110
+   12 00000000         ;   Wrong   C1 C3   = 9A6         0b100110100110
+   13 00000000         ;-------------------------------------------------------
+                       ----------
+   14 00000000         
+   15 00000000         ; Registers:
+   16 00000000         ; r0 - received 12 bits
+   17 00000000         ; r1 - computed 8 bits
+   18 00000000         ; r2 - computed 12 bits
+   19 00000000         ; r3 - received 4 bits (C0 C1 C2 C3)
+   20 00000000         ; r4 - computed 4 bits (C0 C1 C2 C3)
+   21 00000000         ; r5 - temp (calcualted 8 bits)
+   22 00000000         ; r6 - correct 8 bits
+   23 00000000         ; r7 - temporary counter (number of errors)
+   24 00000000         ; r8 - temporary counter (length)
+   25 00000000         ; r10 - correct 12 bits
+   26 00000000         
+   27 00000000 E59F014C        LDR              r0, =0xBB6  ; Example input val
+                                                            ue
+   28 00000004         
+   29 00000004         
+   30 00000004         ; (Step 1) Received 12 bits -> Received 8 bits
+   31 00000004 E2005004        AND              r5, r0, #4  ; Binary: 0b100 (d0
+                                                            )
+   32 00000008 E1811165        ORR              r1, r1, r5, ROR #2
+   33 0000000C E2005070        AND              r5, r0, #112 ; Binary: 0b111000
+                                                            0 (d3 d2 d1)
+   34 00000010 E18111E5        ORR              r1, r1, r5, ROR #3
+   35 00000014 E2005C0F        AND              r5, r0, #3840 ; Binary: 0b11110
+                                                            0000000 (d7 d6 d5 d
+                                                            4)
+   36 00000018 E1811265        ORR              r1, r1, r5, ROR #4
+   37 0000001C         
+   38 0000001C         
+   39 0000001C         ; (Step 2) Received 8 bits -> Computed 12 bits (Calculat
+                       ed)
+   40 0000001C E3A05000        MOV              r5, #0
+   41 00000020         
+   42 00000020         ; Calculate C0
+   43 00000020 E1A05001        MOV              r5, r1
+   44 00000024 E02550E1        EOR              r5, r5, r1, ROR #1
+   45 00000028 E02551E1        EOR              r5, r5, r1, ROR #3
+   46 0000002C E0255261        EOR              r5, r5, r1, ROR #4
+   47 00000030 E0255361        EOR              r5, r5, r1, ROR #6
+   48 00000034 E2052001        AND              r2, r5, #1
+   49 00000038         
+   50 00000038         ; Calculate C1
+   51 00000038 E1A05001        MOV              r5, r1
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   52 0000003C E0255161        EOR              r5, r5, r1, ROR #2
+   53 00000040 E02551E1        EOR              r5, r5, r1, ROR #3
+   54 00000044 E02552E1        EOR              r5, r5, r1, ROR #5
+   55 00000048 E0255361        EOR              r5, r5, r1, ROR #6
+   56 0000004C E2055001        AND              r5, r5, #1
+   57 00000050 E1822085        ORR              r2, r2, r5, LSL #1
+   58 00000054         
+   59 00000054         ; Calculate C2
+   60 00000054 E1A050E1        ROR              r5, r1, #1
+   61 00000058 E0255161        EOR              r5, r5, r1, ROR #2
+   62 0000005C E02551E1        EOR              r5, r5, r1, ROR #3
+   63 00000060 E02553E1        EOR              r5, r5, r1, ROR #7
+   64 00000064 E2055001        AND              r5, r5, #1
+   65 00000068 E1822185        ORR              r2, r2, r5, LSL #3
+   66 0000006C         
+   67 0000006C         ; Calculate C3
+   68 0000006C E1A05261        ROR              r5, r1, #4
+   69 00000070 E02552E1        EOR              r5, r5, r1, ROR #5
+   70 00000074 E0255361        EOR              r5, r5, r1, ROR #6
+   71 00000078 E02553E1        EOR              r5, r5, r1, ROR #7
+   72 0000007C E2055001        AND              r5, r5, #1
+   73 00000080         
+   74 00000080         ; Build caculated 12 bits
+   75 00000080 E1822CE5        ORR              r2, r2, r5, ROR #25
+   76 00000084 E2015001        AND              r5, r1, #1
+   77 00000088 E1822105        ORR              r2, r2, r5, LSL #2
+   78 0000008C E3C150F1        BIC              r5, r1, #0xF1
+   79 00000090 E1822185        ORR              r2, r2, r5, LSL #3
+   80 00000094 E3C1500F        BIC              r5, r1, #0x0F
+   81 00000098 E1822205        ORR              r2, r2, r5, LSL #4
+   82 0000009C         
+   83 0000009C         
+   84 0000009C         ; (Step 3) Hamming 12 bits -> Checksum 4 bits (C0 C1 C2 
+                       C3)
+   85 0000009C E3A05000        LDR              r5, =0
+   86 000000A0         
+   87 000000A0         ; Received 12 bits -> Received checksum 4 bits
+   88 000000A0 E2005001        AND              r5, r0, #1  ; Binary: 0b1 (c0)
+   89 000000A4 E1833005        ORR              r3, r3, r5
+   90 000000A8 E2005002        AND              r5, r0, #2  ; Binary: 0b10 (c1)
+                                                            
+   91 000000AC E1833005        ORR              r3, r3, r5
+   92 000000B0 E2005008        AND              r5, r0, #8  ; Binary: 0b1000 (c
+                                                            2)
+   93 000000B4 E18330E5        ORR              r3, r3, r5, ROR #1
+   94 000000B8 E2005080        AND              r5, r0, #0x80 ; Binary: 0b10000
+                                                            000 (c3)
+   95 000000BC E1833265        ORR              r3, r3, r5, ROR #4
+   96 000000C0         
+   97 000000C0         ; Computed 12 bits -> Computed checksum 4 bits
+   98 000000C0 E2025001        AND              r5, r2, #1  ; Binary: 0b1 (c0)
+   99 000000C4 E1844005        ORR              r4, r4, r5
+  100 000000C8 E2025002        AND              r5, r2, #2  ; Binary: 0b10 (c1)
+                                                            
+  101 000000CC E1844005        ORR              r4, r4, r5
+  102 000000D0 E2025008        AND              r5, r2, #8  ; Binary: 0b1000 (c
+                                                            2)
+  103 000000D4 E18440E5        ORR              r4, r4, r5, ROR #1
+  104 000000D8 E2025080        AND              r5, r2, #0x80 ; Binary: 0b10000
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+                                                            000 (c3)
+  105 000000DC E1844265        ORR              r4, r4, r5, ROR #4
+  106 000000E0         
+  107 000000E0         
+  108 000000E0         ; (Step 4) Correct the 8 bits
+  109 000000E0 E3A05000        LDR              r5, =0
+  110 000000E4 E3A06000        LDR              r6, =0
+  111 000000E8 E3A08000        LDR              r8, =0
+  112 000000EC         
+  113 000000EC         ; Count number of wrong bits
+  114 000000EC         count_wrongs
+  115 000000EC E1150006        TST              r5, r6
+  116 000000F0 12877001        ADDNE            r7, #1      ; add when computed
+                                                             bit != correct bit
+                                                            
+  117 000000F4 E1A06086        LSL              r6, #1
+  118 000000F8 E2488001        SUB              r8, #1
+  119 000000FC E3580000        CMP              r8, #0
+  120 00000100 CAFFFFF9        BGT              count_wrongs
+  121 00000104         
+  122 00000104         ; Correct 8 bits based on the number of errors (wrong bi
+                       ts)
+  123 00000104 E3A05000        LDR              r5, =0
+  124 00000108 E3A06000        LDR              r6, =0
+  125 0000010C E3A08000        LDR              r8, =0
+  126 00000110         
+  127 00000110         ; Correct One wrong bit
+  128 00000110 E3570002        CMP              r7, #2
+  129 00000114 0A000001        BEQ              two_wrongs
+  130 00000118 E1A06001        MOV              r6, r1
+  131 0000011C 1A00000B        BNE              done
+  132 00000120         
+  133 00000120         ; Correct Two wrong bits
+  134 00000120         two_wrongs
+  135 00000120 E3A08001        LDR              r8, =1
+  136 00000124 E3570002        CMP              r7, #2
+  137 00000128 1A000008        BNE              done
+  138 0000012C E0235004        EOR              r5, r3, r4  ; 2^n + 2^m
+  139 00000130 E2455001        SUB              r5, #1      ; 2^n + 2^m - 1
+  140 00000134 E020A518        EOR              r10, r0, r8, LSL r5
+  141 00000138         
+  142 00000138 E20A5004        AND              r5, r10, #4 ; Binary: 0b100 (d0
+                                                            )
+  143 0000013C E1866165        ORR              r6, r6, r5, ROR #2
+  144 00000140 E20A5070        AND              r5, r10, #112 ; Binary: 0b11100
+                                                            00 (d3 d2 d1)
+  145 00000144 E18661E5        ORR              r6, r6, r5, ROR #3
+  146 00000148 E20A5C0F        AND              r5, r10, #3840 ; Binary: 0b1111
+                                                            00000000 (d7 d6 d5 
+                                                            d4)
+  147 0000014C E1866265        ORR              r6, r6, r5, ROR #4
+  148 00000150         
+  149 00000150         
+  150 00000150         ; Stop the program
+  151 00000150 EAFFFFFE 
+                       done    B                done
+  152 00000154         
+  153 00000154                 END
+              00000BB6 
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\o
+bjects\prog1.d -o.\objects\prog1.o -IC:\Keil_v5\ARM\RV31\INC -IC:\Keil_v5\ARM\C
+MSIS\Include -IC:\Keil_v5\ARM\INC\Philips --predefine="__EVAL SETA 1" --predefi
+ne="__UVISION_VERSION SETA 528" --list=.\listings\prog1.lst prog1.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+HW4 00000000
+
+Symbol: HW4
+   Definitions
+      At line 1 in file prog1.s
+   Uses
+      None
+Comment: HW4 unused
+count_wrongs 000000EC
+
+Symbol: count_wrongs
+   Definitions
+      At line 114 in file prog1.s
+   Uses
+      At line 120 in file prog1.s
+Comment: count_wrongs used once
+done 00000150
+
+Symbol: done
+   Definitions
+      At line 151 in file prog1.s
+   Uses
+      At line 131 in file prog1.s
+      At line 137 in file prog1.s
+      At line 151 in file prog1.s
+
+two_wrongs 00000120
+
+Symbol: two_wrongs
+   Definitions
+      At line 134 in file prog1.s
+   Uses
+      At line 129 in file prog1.s
+Comment: two_wrongs used once
+4 symbols
+338 symbols in table

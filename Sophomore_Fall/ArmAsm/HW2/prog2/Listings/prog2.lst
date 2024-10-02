@@ -1,0 +1,61 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;---------------------------------------
+    2 00000000         ;  Author: 411440521 JoshLee  
+    3 00000000         ;  Date: 2023/10/27    
+    4 00000000         ;---------------------------------------
+    5 00000000                 AREA             prog2, CODE, READONLY
+    6 00000000                 ENTRY
+    7 00000000         
+    8 00000000 E3A00095        LDR              R0, =149    ; 149
+    9 00000004 E59F1018        LDR              R1, =4321   ; 4321
+   10 00000008 E3E02000        LDR              R2, =0xFFFFFFFF
+   11 0000000C         
+   12 0000000C         ; -----2's complement-----
+   13 0000000C E0200002        EOR              R0, R0, R2  ; 
+   14 00000010 E2800001        ADD              R0, R0, #1  ; -149
+   15 00000014         
+   16 00000014 E0211002        EOR              R1, R1, R2
+   17 00000018 E2811001        ADD              R1, R1, #1  ; -4321
+   18 0000001C         ; -----2's complement-----
+   19 0000001C         
+   20 0000001C E0807001        ADD              R7, R0, R1
+   21 00000020         
+   22 00000020         ; R7 is the answer
+   23 00000020         
+   24 00000020 EAFFFFFE 
+                       stop    B                stop
+   25 00000024                 END
+              000010E1 
+Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\o
+bjects\prog2.d -o.\objects\prog2.o -IC:\Keil_v5\ARM\RV31\INC -IC:\Keil_v5\ARM\C
+MSIS\Include -IC:\Keil_v5\ARM\INC\Philips --predefine="__EVAL SETA 1" --predefi
+ne="__UVISION_VERSION SETA 528" --list=.\listings\prog2.lst prog2.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+prog2 00000000
+
+Symbol: prog2
+   Definitions
+      At line 5 in file prog2.s
+   Uses
+      None
+Comment: prog2 unused
+stop 00000020
+
+Symbol: stop
+   Definitions
+      At line 24 in file prog2.s
+   Uses
+      At line 24 in file prog2.s
+Comment: stop used once
+2 symbols
+336 symbols in table

@@ -1,0 +1,56 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;---------------------------------------
+    2 00000000         ;  Author: 411440521 JoshLee  
+    3 00000000         ;  Date: 2023/10/27    
+    4 00000000         ;---------------------------------------
+    5 00000000                 AREA             prog4, CODE, READONLY
+    6 00000000                 ENTRY
+    7 00000000         
+    8 00000000 E3A03101        MOV              R3, #0x40000000
+    9 00000004 E3A04060        MOV              R4, #0x60
+   10 00000008         
+   11 00000008 E5836008        STR              R6, [R3, #8]
+   12 0000000C E4C3700C        STRB             R7, [R3], #12
+   13 00000010 E0D350BC        LDRH             R5, [R3], #12
+   14 00000014 E5B3C004        LDR              R12, [R3, #4]!
+   15 00000018 E7B36E64        LDR              R6, [R3, R4, ROR #28]!
+   16 0000001C E7930104        LDR              R0, [R3, R4, LSL #2]
+   17 00000020         
+   18 00000020         ; R3 is the answer
+   19 00000020         
+   20 00000020 EAFFFFFE 
+                       stop    B                stop
+   21 00000024                 END
+Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\o
+bjects\prog4.d -o.\objects\prog4.o -IC:\Keil_v5\ARM\RV31\INC -IC:\Keil_v5\ARM\C
+MSIS\Include -IC:\Keil_v5\ARM\INC\Philips --predefine="__EVAL SETA 1" --predefi
+ne="__UVISION_VERSION SETA 528" --list=.\listings\prog4.lst prog4.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+prog4 00000000
+
+Symbol: prog4
+   Definitions
+      At line 5 in file prog4.s
+   Uses
+      None
+Comment: prog4 unused
+stop 00000020
+
+Symbol: stop
+   Definitions
+      At line 20 in file prog4.s
+   Uses
+      At line 20 in file prog4.s
+Comment: stop used once
+2 symbols
+334 symbols in table

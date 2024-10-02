@@ -1,0 +1,62 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;---------------------------------------
+    2 00000000         ;  Author: 411440521 JoshLee  
+    3 00000000         ;  Date: 2023/10/27    
+    4 00000000         ;---------------------------------------
+    5 00000000                 AREA             prog6, CODE, READONLY
+    6 00000000                 ENTRY
+    7 00000000         
+    8 00000000 E59F202C        LDR              R2, =0x12345678
+    9 00000004 E59F302C        LDR              R3, =0x87654321
+   10 00000008 E3A04012        MOV              R4, #0x00000012
+   11 0000000C         
+   12 0000000C E3C224FF        BIC              r2, r2, #0xFF000000
+   13 00000010 E1A02203        LSL              r2, r3, #4
+   14 00000014 E1A02412        LSL              r2, r2, r4
+   15 00000018 E1A02662        ROR              r2, r2, #12
+   16 0000001C E0022003        AND              r2, r2, r3
+   17 00000020 E1822004        ORR              r2, r2, r4
+   18 00000024 E0222004        EOR              r2, r2, r4
+   19 00000028 E1C22004        BIC              r2, r2, r4
+   20 0000002C E02223E3        EOR              r2, r2, r3, ROR #7
+   21 00000030         
+   22 00000030         ; R2 is the answer
+   23 00000030         
+   24 00000030 EAFFFFFE 
+                       stop    B                stop
+   25 00000034                 END
+              12345678 
+              87654321 
+Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\o
+bjects\prog6.d -o.\objects\prog6.o -IC:\Keil_v5\ARM\RV31\INC -IC:\Keil_v5\ARM\C
+MSIS\Include -IC:\Keil_v5\ARM\INC\Philips --predefine="__EVAL SETA 1" --predefi
+ne="__UVISION_VERSION SETA 528" --list=.\listings\prog6.lst prog6.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+prog6 00000000
+
+Symbol: prog6
+   Definitions
+      At line 5 in file prog6.s
+   Uses
+      None
+Comment: prog6 unused
+stop 00000030
+
+Symbol: stop
+   Definitions
+      At line 24 in file prog6.s
+   Uses
+      At line 24 in file prog6.s
+Comment: stop used once
+2 symbols
+336 symbols in table

@@ -1,0 +1,68 @@
+			AREA   	AIRCRConfig, CODE, READONLY
+AIRCR		EQU     0x400000C8
+RAMSTART	EQU		0x40000020
+
+; IRQ (Interrupt ReQuest)
+; Reserved				[11]   -> 0b0
+; Priority grouping
+; PRIGROUP 				[10:8] -> 0b0100	(determines the split of group priority from subpriority, also called priority group number)
+; Interrupt priority register
+; Group priority bits	[7:5]  -> 0b010		(also called Pre-emption priority bits)
+; Subpriority bits		[4:0]  -> 0b01010
+start
+			LDR     sp, =RAMSTART
+			MOV		r4, #0x4
+			LDR		r5, =0x4A		; 0b 0000 0100 1010 -> 0x4A	(Group priority bits + Subpriority bits = IRQ)
+			LDR		r3, =0xF0		; 0b 0000 1111 0000 -> 4 bits wide
+			BL		set_priority_group_number
+			BL		read_priority_group_number
+			BL		fetch_pre_emption_piority
+			BL		fetch_sub_priority
+stop 		B		stop
+
+; 411440521 JoshLee
+; 3(1) set the priority group number to AIRCR register (using empty ascending stack to recover register)
+set_priority_group_number
+			; use empty ascending stack to recover register
+			STMEA   sp!, {r0, r1, lr}
+			LDR		r0, =0x400000C8	; assuming AIRCR register at 0x400000C8
+			LDR		r1, [r0]
+			BIC		r1, #0x700		; 0b 0111 0000 0000 -> 0b 0000 0000 0000, clear bit [10:8] to set PRIGROUP
+			ORR		r1, #0x400		; 0b 0100 0000 0000 -> set PRIGROUP
+			STR		r1, [r0]
+			LDMEA   sp!, {r0, r1, pc}
+
+; 411440521 JoshLee
+; 3(2) read the priority group number from AIRCR register (using full ascending stack to recover register)
+read_priority_group_number
+			STMFA   sp!, {r1, r2, lr}
+			LDR		r2, =0x400000C8	; assuming AIRCR register at 0x400000C8
+			LDR		r1, [r2]
+			LSR		r1, #8			; PRIGROUP[10:8] -> PRIGROUP[2:0]
+			AND		r1, #7			; r1 = PRIGROUP[2:0] & 0b 0000 0000 0111
+			LDMFA   sp!, {r1, r2, pc}
+
+; 411440521 JoshLee
+; 3(3) get pre-emption priority and sub-priority of IRQ from AIRCR register (using empty descending stack to recover register)
+fetch_pre_emption_piority
+			STMED   sp!, {r1-r3, lr}
+			LDR		r2, =0x400000C8	; assuming AIRCR register at 0x400000C8
+			LDR		r1, [r2]
+			MOV		r3, #4			; PRIGROUP (Priority Group Number) = 4
+			ADD		r3, #1			; PRIGROUP+1
+			LSR		r1, r3			; to take a right shift for PRIGROUP+1
+			LSL		r1, r3			; to take a left shift for PRIGROUP+1 ->> group-priority
+			LDMED   sp!, {r1-r3, pc}
+
+fetch_sub_priority
+			STMED   sp!, {r0-r2, lr}
+			LDR		r2, =0x400000C8	; assuming AIRCR register at 0x400000C8
+			LDR		r1, [r2]
+			MOV		r0, #0xF		; r0 = according to 4 bits wide, 0b 1111 0000 -> 0b 0000 1111 ->> 0b0000 0000 1111
+			BIC		r1, r0			; 0b 0000 0000 1111 -> 4 bits wide [7:4] -> clear lower byte [3:0] -> sub-priority
+			LDMED   sp!, {r0-r2, pc}
+
+
+			ALIGN
+
+			END
