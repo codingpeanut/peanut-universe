@@ -2,6 +2,7 @@
 college works
 
 ### File Tree
+```bash
 University/  
 ├── Freshman/  
 │   ├── Semester1/  
@@ -29,3 +30,4 @@ University/
     ├── Books/  
     ├── Papers/  
     └── Tools/  
+```
