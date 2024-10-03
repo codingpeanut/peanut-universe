@@ -7,7 +7,7 @@ college works
 │  
 ├── /courses  # 課程相關資料  
 │   ├── /cs101  
-│   │   ├── /lectures    # 課堂講義、幻燈片  
+│   │   ├── /lectures    # 課堂講義、投影片  
 │   │   ├── /assignments # 作業  
 │   │   ├── /projects    # 專案  
 │   │   ├── /notes       # 課堂筆記  
