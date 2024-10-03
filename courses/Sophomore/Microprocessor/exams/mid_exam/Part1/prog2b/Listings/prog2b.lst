@@ -1,0 +1,321 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             UARTDEMO, CODE, READONLY
+    2 00000000 E002C000 
+                       PINSEL0 EQU              0XE002C000  ; controls the func
+                                                            tion of the pins
+    3 00000000 E000C000 
+                       U0START EQU              0XE000C000  ; start of UART0 re
+                                                            gister
+    4 00000000 0000000C 
+                       LCR0    EQU              0XC         ; line control regi
+                                                            ster for UART0
+    5 00000000 00000014 
+                       LSR0    EQU              0X14        ; line status regis
+                                                            ter for UART0
+    6 00000000 40000000 
+                       RAMSTART
+                               EQU              0X40000000  ; start of onboard 
+                                                            RAM for 2104
+    7 00000000         
+    8 00000000                 ENTRY
+    9 00000000         start
+   10 00000000 E59FD0C4        LDR              sp, =RAMSTART ; set up stack po
+                                                            inter
+   11 00000004 EB000009        BL               UARTConfig  ; initialize/config
+                                                            ure UART0
+   12 00000008         
+   13 00000008         ; 2(b)  display reversely the string characters in multi
+                       ple-of-3 positions (assuming the last character starts f
+                       rom position 0)
+   14 00000008         ; ------------------------ print multiple-of-3 positions
+                        -------------------------
+   15 00000008 E59F10C0        LDR              r1, =StudentData ; starting add
+                                                            ress of StudentData
+                                                            
+   16 0000000C E281102A        ADD              r1, #42     ; rev_head_address(
+                                                            r1) = StudentData(r
+                                                            1) + string_length(
+                                                            #42)
+   17 00000010 E3A0200E        MOV              r2, #14     ; print_counter = 4
+                                                            3/3 = 14
+   18 00000014         
+   19 00000014 E2411003        SUB              r1, #3      ; first character
+   20 00000018         Loop2_Tx
+   21 00000018 E4510003        LDRB             r0, [r1], #-3 ; load character,
+                                                             decrement address
+   22 0000001C E3520000        CMP              r2, #0      ; print_counter gre
+                                                            ater than 0?
+   23 00000020 1B000010        BLNE             Transmit    ; send character to
+                                                             UAER0
+   24 00000024 E2422001        SUB              r2, #1      ; print_counter--
+   25 00000028 1AFFFFFA        BNE              Loop2_Tx    ; continue if print
+                                                            _counter not equals
+                                                             to 0
+   26 0000002C         ; ------------------------ print multiple-of-3 positions
+                        -------------------------
+   27 0000002C         
+   28 0000002C EAFFFFFE 
+                       done    B                done        ; otherwise we're d
+                                                            one
+   29 00000030         
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   30 00000030         ; Subroutine UARTConfig
+   31 00000030         ; This subroutine configures the I/O pins first. It
+   32 00000030         ; then sets up the UART control register. The
+   33 00000030         ; parameters
+   34 00000030         ; are set to 8 bits, no parity and 1 stop bit.
+   35 00000030         ; Registers used:
+   36 00000030         ; r5   scratch register
+   37 00000030         ; r6   scratch register
+   38 00000030         ; inputs: none
+   39 00000030         ; outputs: none
+   40 00000030         
+   41 00000030         UARTConfig
+   42 00000030 E8AD4060        STMIA            sp!, {r5, r6, lr}
+   43 00000034 E59F5098        LDR              r5, =PINSEL0 ; base address of 
+                                                            register
+   44 00000038 E5956000        LDR              r6, [r5]    ; get contents
+   45 0000003C E3C6600F        BIC              r6, r6, #0xF ; clear out lower 
+                                                            nibble
+   46 00000040 E3866005        ORR              r6, r6, #0x5 ; sets P0.0 to Tx0
+                                                             and P0.1 to Rx0
+   47 00000044 E5856000        STR              r6, [r5]    ; r/modify/w back t
+                                                            o register
+   48 00000048 E59F5088        LDR              r5, =U0START
+   49 0000004C E3A06083        MOV              r6, #0x83   ; set 8 bits, no pa
+                                                            rity, 1 stop bit
+   50 00000050 E5C5600C        STRB             r6, [r5, #LCR0] ; write control
+                                                             byte to LCR
+   51 00000054 E3A06061        MOV              r6, #0x61   ; 9600 baud @15 MHz
+                                                             VPB clock
+   52 00000058 E5C56000        STRB             r6, [r5]    ; store control byt
+                                                            e
+   53 0000005C E3A06003        MOV              r6, #3      ; set DLAB = 0
+   54 00000060 E5C5600C        STRB             r6, [r5, #LCR0] ; Tx and Rx buf
+                                                            fers set up
+   55 00000064 E93D8060        LDMDB            sp!, {r5, r6, pc}
+   56 00000068         
+   57 00000068         
+   58 00000068         ; Subroutine Transmit
+   59 00000068         ; This routine puts one byte into the UART
+   60 00000068         ; for transmitting.
+   61 00000068         ; Register used:
+   62 00000068         ; r5 - scratch
+   63 00000068         ; r6 - scratch
+   64 00000068         ; inputs: r0- byte to transmit
+   65 00000068         ; outputs: none
+   66 00000068         ;
+   67 00000068         
+   68 00000068         Transmit
+   69 00000068 E8AD4060        STMIA            sp!, {r5, r6, lr}
+   70 0000006C E59F5064        LDR              r5, =U0START
+   71 00000070         wait_Tx
+   72 00000070 E5D56014        LDRB             r6, [r5, #LSR0] ; get status of
+                                                             buffer
+   73 00000074 E3160020        TST              r6, #0x20   ; buffer empty?
+   74 00000078 0AFFFFFC        BEQ              wait_Tx     ; spin until buffer
+                                                             empty
+   75 0000007C E5C50000        STRB             r0, [r5]
+   76 00000080 E93D8060        LDMDB            sp!, {r5, r6, pc}
+   77 00000084         
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   78 00000084         Receive
+   79 00000084 E8AD4060        STMIA            sp!, {r5, r6, lr}
+   80 00000088 E59F5048        LDR              r5, =U0START
+   81 0000008C         wait_Rx
+   82 0000008C E5D56014        LDRB             r6, [r5, #LSR0] ; get status of
+                                                             buffer
+   83 00000090 E3160001        TST              r6, #1      ; data ready?
+   84 00000094 0AFFFFFC        BEQ              wait_Rx     ; until data ready
+   85 00000098 E5D50000        LDRB             r0, [r5]
+   86 0000009C E93D8060        LDMDB            sp!, {r5, r6, pc}
+   87 000000A0         
+   88 000000A0         StudentData
+   89 000000A0         ;        0                    21   26 29     36   41
+   90 000000A0 34 31 31 
+              34 34 30 
+              35 32 31 
+              2D 4C 65 
+              65 2D 4D 
+              69 64 74 
+              65 72 6D 
+              20 45 78 
+              61 6D 20 
+              69 6E 20 
+              53 70 72 
+              69 6E 67 
+              20 32 30 
+              32 34 21 
+              00               DCB              "411440521-Lee-Midterm Exam in 
+Spring 2024!", 0 
+                                                            ; string_length = 4
+                                                            2 (index: 0~41)
+   91 000000CB                 END
+              00 40000000 
+              00000000 
+              E002C000 
+              E000C000 
+Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\o
+bjects\prog2b.d -o.\objects\prog2b.o -IC:\Keil_v5\ARM\RV31\INC -IC:\Keil_v5\ARM
+\CMSIS\Include -IC:\Keil_v5\ARM\INC\Philips --predefine="__EVAL SETA 1" --prede
+fine="__UVISION_VERSION SETA 528" --list=.\listings\prog2b.lst prog2b.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Loop2_Tx 00000018
+
+Symbol: Loop2_Tx
+   Definitions
+      At line 20 in file prog2b.s
+   Uses
+      At line 25 in file prog2b.s
+Comment: Loop2_Tx used once
+Receive 00000084
+
+Symbol: Receive
+   Definitions
+      At line 78 in file prog2b.s
+   Uses
+      None
+Comment: Receive unused
+StudentData 000000A0
+
+Symbol: StudentData
+   Definitions
+      At line 88 in file prog2b.s
+   Uses
+      At line 15 in file prog2b.s
+Comment: StudentData used once
+Transmit 00000068
+
+Symbol: Transmit
+   Definitions
+      At line 68 in file prog2b.s
+   Uses
+      At line 23 in file prog2b.s
+Comment: Transmit used once
+UARTConfig 00000030
+
+Symbol: UARTConfig
+   Definitions
+      At line 41 in file prog2b.s
+   Uses
+      At line 11 in file prog2b.s
+Comment: UARTConfig used once
+UARTDEMO 00000000
+
+Symbol: UARTDEMO
+   Definitions
+      At line 1 in file prog2b.s
+   Uses
+      None
+Comment: UARTDEMO unused
+done 0000002C
+
+Symbol: done
+   Definitions
+      At line 28 in file prog2b.s
+   Uses
+      At line 28 in file prog2b.s
+Comment: done used once
+start 00000000
+
+Symbol: start
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+   Definitions
+      At line 9 in file prog2b.s
+   Uses
+      None
+Comment: start unused
+wait_Rx 0000008C
+
+Symbol: wait_Rx
+   Definitions
+      At line 81 in file prog2b.s
+   Uses
+      At line 84 in file prog2b.s
+Comment: wait_Rx used once
+wait_Tx 00000070
+
+Symbol: wait_Tx
+   Definitions
+      At line 71 in file prog2b.s
+   Uses
+      At line 74 in file prog2b.s
+Comment: wait_Tx used once
+10 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+LCR0 0000000C
+
+Symbol: LCR0
+   Definitions
+      At line 4 in file prog2b.s
+   Uses
+      At line 50 in file prog2b.s
+      At line 54 in file prog2b.s
+
+LSR0 00000014
+
+Symbol: LSR0
+   Definitions
+      At line 5 in file prog2b.s
+   Uses
+      At line 72 in file prog2b.s
+      At line 82 in file prog2b.s
+
+PINSEL0 E002C000
+
+Symbol: PINSEL0
+   Definitions
+      At line 2 in file prog2b.s
+   Uses
+      At line 43 in file prog2b.s
+Comment: PINSEL0 used once
+RAMSTART 40000000
+
+Symbol: RAMSTART
+   Definitions
+      At line 6 in file prog2b.s
+   Uses
+      At line 10 in file prog2b.s
+Comment: RAMSTART used once
+U0START E000C000
+
+Symbol: U0START
+   Definitions
+      At line 3 in file prog2b.s
+   Uses
+      At line 48 in file prog2b.s
+      At line 70 in file prog2b.s
+      At line 80 in file prog2b.s
+
+5 symbols
+349 symbols in table

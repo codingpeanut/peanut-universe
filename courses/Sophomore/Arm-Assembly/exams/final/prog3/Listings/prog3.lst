@@ -1,0 +1,185 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; Program 3
+    2 00000000                 AREA             FinalExam_Pretest_3, CODE, READ
+ONLY
+    3 00000000                 ENTRY
+    4 00000000 E3A00101        LDR              r0, = 0x40000000
+    5 00000004 E59F1098        LDR              r1, = 0xCDEF5678
+    6 00000008 E59F2098        LDR              r2, = 0x5678CDEF
+    7 0000000C E59F3098        LDR              r3, = 0xBEEFFACE
+    8 00000010 E59F4098        LDR              r4, = 0xFACEBEEF
+    9 00000014 E59FD098        LDR              sp, = 0x40000020
+   10 00000018 E3A0C1C1        LDR              r12, =0x40000030
+   11 0000001C E880001E        STMIA            r0, {r1, r2, r3, r4}
+   12 00000020         
+   13 00000020         ;--(1)
+   14 00000020         ;LDR r10, =0x1234ABCD
+   15 00000020         ;BL  CheckParity
+   16 00000020         
+   17 00000020         ;--(2)
+   18 00000020 E910001E        LDMDB            r0, {r1, r2, r3, r4}
+   19 00000024         
+   20 00000024 E1A0A001        MOV              r10, r1
+   21 00000028 EB000007        BL               CheckParity
+   22 0000002C         
+   23 0000002C E1A0A002        MOV              r10, r2
+   24 00000030 EB000005        BL               CheckParity
+   25 00000034         
+   26 00000034 E1A0A003        MOV              r10, r3
+   27 00000038 EB000003        BL               CheckParity
+   28 0000003C         
+   29 0000003C E1A0A004        MOV              r10, r4
+   30 00000040 EB000001        BL               CheckParity
+   31 00000044         
+   32 00000044 E986001E        STMIB            r6, {r1, r2, r3, r4}
+   33 00000048         
+   34 00000048 EAFFFFFE 
+                       stop    B                stop
+   35 0000004C         
+   36 0000004C         ; r8 = check bits
+   37 0000004C         ; r9 = count 1
+   38 0000004C         ; r10 = insert number
+   39 0000004C         ; r11 = length
+   40 0000004C         ; r12 = store address
+   41 0000004C         
+   42 0000004C         CheckParity
+   43 0000004C E8AD1B00        STMIA            sp!, {r8, r9, r11, r12}
+   44 00000050 E3A09000        MOV              r9, #0
+   45 00000054 E3A0B020        MOV              r11, #32
+   46 00000058         
+   47 00000058         
+   48 00000058         CheckParityLoop
+   49 00000058 E35B0000        CMP              r11, #0
+   50 0000005C 0A000004        BEQ              parity_done
+   51 00000060         
+   52 00000060 E20A8001        AND              r8, r10, #1
+   53 00000064 E0899008        ADD              r9, r9, r8
+   54 00000068 E1A0A0EA        ROR              r10, #1
+   55 0000006C E24BB001        SUB              r11, #1
+   56 00000070 EAFFFFF8        B                CheckParityLoop
+   57 00000074         
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   58 00000074         parity_done
+   59 00000074 E2099001        AND              r9, #1
+   60 00000078 E3590001        CMP              r9, #1
+   61 0000007C 0A000000        BEQ              odd_parity
+   62 00000080 1A000001        BNE              even_parity
+   63 00000084         
+   64 00000084         odd_parity
+   65 00000084 E59FB02C        LDR              r11, =0xFACEFACE
+   66 00000088 EA000001        B                exit
+   67 0000008C         
+   68 0000008C         even_parity
+   69 0000008C E59FB028        LDR              r11, =0xBEEFBEEF
+   70 00000090 EAFFFFFF        B                exit
+   71 00000094         
+   72 00000094         exit
+   73 00000094 E58CB000        STR              r11, [r12]
+   74 00000098 E93D1B00        LDMDB            sp!, {r8, r9, r11, r12}
+   75 0000009C E28CC004        ADD              r12, #4
+   76 000000A0 E12FFF1E        BX               lr
+   77 000000A4         
+   78 000000A4                 END
+              CDEF5678 
+              5678CDEF 
+              BEEFFACE 
+              FACEBEEF 
+              40000020 
+              FACEFACE 
+              BEEFBEEF 
+Command Line: --debug --xref --diag_suppress=9931 --apcs=interwork --depend=.\o
+bjects\prog3.d -o.\objects\prog3.o -IC:\Keil_v5\ARM\RV31\INC -IC:\Keil_v5\ARM\C
+MSIS\Include -IC:\Keil_v5\ARM\INC\Philips --predefine="__EVAL SETA 1" --predefi
+ne="__UVISION_VERSION SETA 528" --list=.\listings\prog3.lst prog3.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+CheckParity 0000004C
+
+Symbol: CheckParity
+   Definitions
+      At line 42 in file prog3.s
+   Uses
+      At line 21 in file prog3.s
+      At line 24 in file prog3.s
+      At line 27 in file prog3.s
+      At line 30 in file prog3.s
+
+CheckParityLoop 00000058
+
+Symbol: CheckParityLoop
+   Definitions
+      At line 48 in file prog3.s
+   Uses
+      At line 56 in file prog3.s
+Comment: CheckParityLoop used once
+FinalExam_Pretest_3 00000000
+
+Symbol: FinalExam_Pretest_3
+   Definitions
+      At line 2 in file prog3.s
+   Uses
+      None
+Comment: FinalExam_Pretest_3 unused
+even_parity 0000008C
+
+Symbol: even_parity
+   Definitions
+      At line 68 in file prog3.s
+   Uses
+      At line 62 in file prog3.s
+Comment: even_parity used once
+exit 00000094
+
+Symbol: exit
+   Definitions
+      At line 72 in file prog3.s
+   Uses
+      At line 66 in file prog3.s
+      At line 70 in file prog3.s
+
+odd_parity 00000084
+
+Symbol: odd_parity
+   Definitions
+      At line 64 in file prog3.s
+   Uses
+      At line 61 in file prog3.s
+Comment: odd_parity used once
+parity_done 00000074
+
+Symbol: parity_done
+   Definitions
+      At line 58 in file prog3.s
+   Uses
+      At line 50 in file prog3.s
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+Comment: parity_done used once
+stop 00000048
+
+Symbol: stop
+   Definitions
+      At line 34 in file prog3.s
+   Uses
+      At line 34 in file prog3.s
+Comment: stop used once
+8 symbols
+342 symbols in table
