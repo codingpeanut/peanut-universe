@@ -9,7 +9,7 @@ This is a simple C program that copies files from a source to a destination. The
 - **Robust Input Handling**: Ensures user inputs are handled safely to avoid crashes.
 
 ## Directory Structure
-/s411440521HW1
-├── s411440521HW1.c        # Source code for the file copy program
-├── s411440521HW1.exe      # Compiled executable (Windows x64)
-└── README.md              # Documentation for the project
+/s411440521HW1  
+├── s411440521HW1.c        # Source code for the file copy program  
+├── s411440521HW1.exe      # Compiled executable (Windows x64)  
+└── README.md              # Documentation for the project  
