@@ -13,7 +13,7 @@
 Compiler:  
 GNU gccor g++ (Linux compatible)  
 
-Name your C code:  
+- Name your C code:  
 source code: s+StudentIDHW1.c  
 executable code:  s+StudentIDHW1.exe  
 Ex: s400123123HW1.c, s400123123HW1.exe  
