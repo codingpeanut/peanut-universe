@@ -1,6 +1,6 @@
 # Homework 1
 ## Programming Problem: Copy Files
-Requirements:  
+### Requirements:  
 
 1. Prompt for user to input the source file name, if the file doesn’t exist then user can re-enter the correct file name or abort the execution. 
 讓使用者輸入來源檔案的檔名，若檔案不存在，則讓使用者重新輸入或選擇離開程式)  
@@ -14,9 +14,9 @@ executable code:  s+StudentIDHW1.exe
 Ex: s400123123HW1.c, s400123123HW1.exe  
 
 ## Grading
-If your program can only copy plain text files, then the highest score you can get will be 90  
+- If your program can only copy plain text files, then the highest score you can get will be 90  
 能夠拷貝文字檔，滿分為90  
-If your program can copy any types of files (such as plain text, mp3, binary code), then the highest score you can get will be 100  
+- If your program can copy any types of files (such as plain text, mp3, binary code), then the highest score you can get will be 100  
 能夠拷貝各種類型檔案包含非純文字檔，例如pptx, doc, mp3, 等滿分為100  
 
 Note:
