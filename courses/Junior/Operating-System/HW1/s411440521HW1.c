@@ -1,79 +1,65 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-int file_exists(const char *filename) {
-    FILE *file = fopen(filename, "rb");
-    if (file) {
-        fclose(file);
-        return 1;
-    }
-    return 0;
-}
-
-void prompt_source_file(char *source) {
-    while (1) {
-        printf("Enter source file name: ");
-        scanf("%s", source);
-        if (file_exists(source)) {
-            break;
-        } else {
-            char choice;
-            printf("File does not exist. Try again or press 'q' to quit: ");
-            scanf(" %c", &choice);
-            if (choice == 'q') {
-                exit(0);
-            }
-        }
-    }
-}
-
-void prompt_destination_file(char *destination) {
-    while (1) {
-        printf("Enter destination file name: ");
-        scanf("%s", destination);
-        if (file_exists(destination)) {
-            char choice;
-            printf("File already exists. Choose an option: (a) Enter another name, (b) Overwrite, (c) Quit: ");
-            scanf(" %c", &choice);
-            if (choice == 'a') {
-                continue;
-            } else if (choice == 'b') {
-                break;  // Proceed to overwrite
-            } else if (choice == 'c') {
-                exit(0);
-            }
-        } else {
-            break;  // File doesn't exist, continue
-        }
-    }
-}
-
-void copy_file(const char *source, const char *destination) {
-    FILE *src = fopen(source, "rb");
-    FILE *dest = fopen(destination, "wb");
-    if (!src || !dest) {
-        printf("Error opening files.\n");
-        exit(1);
-    }
-
-    char buffer[1024];
-    size_t bytes;
-    while ((bytes = fread(buffer, 1, sizeof(buffer), src)) > 0) {
-        fwrite(buffer, 1, bytes, dest);
-    }
-
-    fclose(src);
-    fclose(dest);
-    printf("File copied successfully!\n");
-}
+#include <string.h>
 
 int main() {
-    char source[256], destination[256];
+    char source[100], destination[100];
+    FILE *src, *dest;
+    int bytes_copied = 0;
 
-    prompt_source_file(source);
-    prompt_destination_file(destination);
-    copy_file(source, destination);
+    // Get source file name
+    do {
+        printf("Enter source file name: ");
+        fgets(source, sizeof(source), stdin);
+        source[strcspn(source, "\n")] = 0;
+        src = fopen(source, "rb");
+        if (src == NULL) {
+            printf("File not found. Please re-enter or enter 'q' to quit.\n");
+        }
+    } while (src == NULL && source[0] != 'q');
 
+    if (source[0] == 'q') {
+        return 0;
+    }
+
+    // Get destination file name
+    do {
+        printf("Enter destination file name: ");
+        fgets(destination, sizeof(destination), stdin);
+        destination[strcspn(destination, "\n")] = 0;
+        dest = fopen(destination, "rb");
+        if (dest != NULL) {
+            printf("File already exists. Choose an option:\n");
+            printf("(a) Enter a new name (b) Overwrite (c) Quit\n");
+            char option;
+            scanf(" %c", &option);
+            if (option == 'a') {
+                continue;
+            } else if (option == 'b') {
+                fclose(dest);
+                break;
+            } else {
+                return 0;
+            }
+        } else {
+            break;
+        }
+    } while (1);
+
+    // Open destination file in write mode
+    dest = fopen(destination, "wb");
+
+    // Copy file contents in chunks for better performance
+    size_t chunk_size = 1024;
+    char buffer[chunk_size];
+    while ((bytes_copied = fread(buffer, 1, chunk_size, src)) > 0) {
+        fwrite(buffer, 1, bytes_copied, dest);
+    }
+
+    // Close files
+    fclose(src);
+    fclose(dest);
+
+    printf("File copied successfully!\n");
     return 0;
 }
-
