@@ -5,61 +5,53 @@
 int main() {
     char source[100], destination[100];
     FILE *src, *dest;
-    int bytes_copied = 0;
+    char buffer[1024];
+    size_t bytes;
 
-    // Get source file name
-    do {
+    // Get source file name and open it
+    while (1) {
         printf("Enter source file name: ");
         fgets(source, sizeof(source), stdin);
-        source[strcspn(source, "\n")] = 0;
+        source[strcspn(source, "\n")] = 0; // Remove newline
         src = fopen(source, "rb");
-        if (src == NULL) {
-            printf("File not found. Please re-enter or enter 'q' to quit.\n");
-        }
-    } while (src == NULL && source[0] != 'q');
-
-    if (source[0] == 'q') {
-        return 0;
+        if (src) break;
+        if (source[0] == 'q') return 0;
+        printf("File not found. Try again or enter 'q' to quit.\n");
     }
 
-    // Get destination file name
-    do {
+    // Get destination file name and handle existing files
+    while (1) {
         printf("Enter destination file name: ");
         fgets(destination, sizeof(destination), stdin);
         destination[strcspn(destination, "\n")] = 0;
-        dest = fopen(destination, "rb");
-        if (dest != NULL) {
-            printf("File already exists. Choose an option:\n");
-            printf("(a) Enter a new name (b) Overwrite (c) Quit\n");
-            char option;
-            scanf(" %c", &option);
-            if (option == 'a') {
-                continue;
-            } else if (option == 'b') {     // can't copy a file onto itself 
-                fclose(dest);
-                return 0;
-            } else {
-                return 0;
-            }
-        } else {
-            break;
+
+        // Check if source and destination are the same
+        if (strcmp(source, destination) == 0) {
+            printf("Source and destination cannot be the same!\n");
+            return 0;
         }
-    } while (1);
 
-    // Open destination file in write mode
-    dest = fopen(destination, "wb");
-
-    // Copy file contents in chunks for better performance
-    size_t chunk_size = 1024;
-    char buffer[chunk_size];
-    while ((bytes_copied = fread(buffer, 1, chunk_size, src)) > 0) {
-        fwrite(buffer, 1, bytes_copied, dest);
+        dest = fopen(destination, "rb");
+        if (dest) {
+            fclose(dest);
+            printf("File exists. (a) Enter new name (b) Overwrite (c) Quit\n");
+            char option = getchar();
+            getchar(); // To consume newline
+            if (option == 'a') continue; // Enter new file name
+            if (option == 'c') return 0; // Quit
+            // If choosing to overwrite, do nothing and break the loop
+        }
+        break; // File does not exist or chose to overwrite, break the loop
     }
 
-    // Close files
+    // Open destination file and copy contents
+    dest = fopen(destination, "wb");
+    while ((bytes = fread(buffer, 1, sizeof(buffer), src)) > 0) {
+        fwrite(buffer, 1, bytes, dest);
+    }
+
     fclose(src);
     fclose(dest);
-
     printf("File copied successfully!\n");
     return 0;
 }
