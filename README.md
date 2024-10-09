@@ -1,17 +1,12 @@
-# peanut-universe
-college works
-
-### File Tree
-```bash
-/uni       # 大學主目錄  
+/uni       # University Main Directory
 │  
-├── /courses  # 課程相關資料  
+├── /courses  # Course Materials  
 │   ├── /cs101  
-│   │   ├── /lectures    # 課堂講義、投影片  
-│   │   ├── /assignments # 作業  
-│   │   ├── /projects    # 專案  
-│   │   ├── /notes       # 課堂筆記  
-│   │   └── /exams       # 考試相關資料  
+│   │   ├── /lectures    # Lectures, Slides  
+│   │   ├── /assignments # Assignments  
+│   │   ├── /projects    # Projects  
+│   │   ├── /notes       # Class Notes  
+│   │   └── /exams       # Exam Materials  
 │   └── /math201  
 │       ├── /lectures  
 │       ├── /assignments  
@@ -19,22 +14,21 @@ college works
 │       ├── /notes  
 │       └── /exams  
 │  
-├── /reading  # 閱讀資料  
-│   ├── /papers      # 學術論文  
-│   ├── /books       # 教科書和參考書  
-│   └── /articles    # 文章、報導  
+├── /reading  # Reading Materials  
+│   ├── /papers      # Academic Papers  
+│   ├── /books       # Textbooks and References  
+│   └── /articles    # Articles and Reports  
 │  
-├── /refs     # 參考資料  
-│   ├── /code      # 程式碼範例  
-│   ├── /tools     # 工具與插件  
-│   └── /tutorials # 教學材料  
+├── /refs     # References  
+│   ├── /code      # Code Samples  
+│   ├── /tools     # Tools and Plugins  
+│   └── /tutorials # Tutorials and Guides  
 │  
-├── /research # 研究相關  
-│   ├── /topics     # 研究主題與問題  
-│   ├── /data       # 研究數據  
-│   └── /papers     # 研究論文  
+├── /research # Research Related  
+│   ├── /topics     # Research Topics and Questions  
+│   ├── /data       # Research Data  
+│   └── /papers     # Research Papers  
 │  
-└── /misc     # 其他未分類資料  
-    ├── /personal    # 個人項目或資料  
-    └── /temp        # 臨時文件、隨手存放的資料  
-```
+└── /misc     # Miscellaneous  
+    ├── /personal    # Personal Projects or Documents  
+    └── /temp        # Temporary Files, Miscellaneous Data  
