@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 int file_exist(const char *filename) {
     FILE *fp = fopen(filename, "rb");
@@ -9,23 +8,6 @@ int file_exist(const char *filename) {
         return 1; // File exists
     }
     return 0; // File doesn't exist
-}
-
-void copyFile(const char *srcPath, const char *destPath) {
-    FILE *src = fopen(srcPath, "rb");
-    FILE *dest = fopen(destPath, "wb");
-    if (!src || !dest) {
-        perror("File opening failed");
-        if (src) fclose(src);
-        exit(EXIT_FAILURE);
-    }
-    
-    int ch;
-    while ((ch = fgetc(src)) != EOF) {
-        fputc(ch, dest);
-    }
-    fclose(src);
-    fclose(dest);
 }
 
 void moveFile(const char *source, const char *destination) {
@@ -38,46 +20,45 @@ void moveFile(const char *source, const char *destination) {
 
 int main() {
     char source[100], destination[100];
+    FILE *src, *dest;
+    char buffer[1024];
+    size_t bytes;
 
-    // Get source file name
+    // Get source file name and open it
     while (1) {
-        printf("Enter source file name (or 'q' to quit): ");
+        printf("Enter source file name: ");
         fgets(source, sizeof(source), stdin);
+        source[strcspn(source, "\n")] = 0; // Remove newline
+        src = fopen(source, "rb");
+        if (src) break;
         if (source[0] == 'q') return 0;
-        source[strcspn(source, "\n")] = 0;
-        if (file_exist(source)) break;
-        printf("File not found. Try again.\n");
+        printf("File not found. Try again or enter 'q' to quit.\n");
     }
 
-    // Get destination file name
+    // Get destination file name and handle existing files
     while (1) {
         printf("Enter destination file name: ");
         fgets(destination, sizeof(destination), stdin);
         destination[strcspn(destination, "\n")] = 0;
-
         if (file_exist(destination)) {
             printf("File exists. (a) New name (b) Overwrite (c) Quit: ");
             char option = getchar();
             getchar(); // Consume newline
-            
             if (option == 'a') continue; // Ask for a new destination
-            if (option == 'b') {
-                // Create a temporary file name
-                char tempPath[100];
-                snprintf(tempPath, sizeof(tempPath), "%s.tmp", source);
-                
-                // Copy the source file to the temporary file
-                copyFile(source, tempPath);
-                
-                // Move the temporary file to the destination
-                moveFile(tempPath, destination);
-                return 0;
-            }
             if (option == 'c') return 0; // Quit
+            // If choosing to overwrite, do nothing and break the loop
         }
-        break; // Valid destination
+        break; // File does not exist or chose to overwrite, break the loop
     }
 
-    moveFile(source, destination);
+    // Open destination file and copy contents
+    dest = fopen(destination, "wb");
+    while ((bytes = fread(buffer, 1, sizeof(buffer), src)) > 0) {
+        fwrite(buffer, 1, bytes, dest);
+    }
+
+    fclose(src);
+    fclose(dest);
+    printf("File copied successfully!\n");
     return 0;
 }
