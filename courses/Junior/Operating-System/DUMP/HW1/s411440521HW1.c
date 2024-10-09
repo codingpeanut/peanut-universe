@@ -30,7 +30,7 @@ int main() {
             char option = getchar();
             getchar(); // To consume newline
             if (option == 'a') continue;
-            if (option == 'c') return 0;
+            if (option == 'b' || option == 'c') return 0;
         }
         break;
     }

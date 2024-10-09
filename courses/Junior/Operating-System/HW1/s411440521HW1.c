@@ -1,12 +1,3 @@
-/* 
- * Warning: 
- * This code have some bug when you select "Overwrite" selection.
- * MAKE SURE TO BACKUP YOUR PERSONAL DATA!!!
-  */
-
-
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -44,9 +35,8 @@ int main() {
             scanf(" %c", &option);
             if (option == 'a') {
                 continue;
-            } else if (option == 'b') {
+            } else if (option == 'b') {     // can't copy a file onto itself 
                 fclose(dest);
-                // break;
                 return 0;
             } else {
                 return 0;
