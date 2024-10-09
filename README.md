@@ -1,3 +1,8 @@
+# peanut-universe
+college works
+
+### File Tree
+```bash
 /uni       # University Main Directory
 │  
 ├── /courses  # Course Materials  
@@ -32,3 +37,4 @@
 └── /misc     # Miscellaneous  
     ├── /personal    # Personal Projects or Documents  
     └── /temp        # Temporary Files, Miscellaneous Data  
+```
