@@ -1,5 +1,8 @@
-*.bat
+# Remove My Push Script
+push.bat
 
-# ignore IDE environment config
+# Remove IDE Settings
 .vscode/
+
+# Remove Executables
 *.exe
