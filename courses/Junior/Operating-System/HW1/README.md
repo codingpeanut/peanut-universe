@@ -6,7 +6,7 @@
 讓使用者輸入來源檔案的檔名，若檔案不存在，則讓使用者重新輸入或選擇離開程式)  
 
 2. Prompt for user to input the destination file name, if there is a file with the same name as input, then user can select one of the following operations: (a) enter another file name, (b) overwrite the original file, (c) exit the program  
-讓使用者輸入目的檔案的檔名，若有相同的檔名存在，則讓使用者選擇(a) 重新輸入(b) 覆蓋目的檔案(c)離開程式  
+讓使用者輸入目的檔案的檔名，若有相同的檔名存在，則讓使用者選擇 (a) 重新輸入 (b) 覆蓋目的檔案 (c) 離開程式  
 
 3. Copy the content of the source file to the destination file
 將輸入的來源檔案內容拷貝至目的檔案  

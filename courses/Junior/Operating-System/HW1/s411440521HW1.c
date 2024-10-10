@@ -28,7 +28,7 @@ int main() {
         // Check if source and destination are the same
         if (strcmp(source, destination) == 0) {
             printf("Source and destination cannot be the same!\n");
-            return 0;
+            exit(EXIT_FAILURE);
         }
 
         dest = fopen(destination, "rb");
