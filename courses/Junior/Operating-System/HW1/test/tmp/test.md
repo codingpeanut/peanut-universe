@@ -13,3 +13,7 @@ This is a simple C program that copies files from a source to a destination. The
 ├── s411440521HW1.c        # Source code for the file copy program
 ├── s411440521HW1.exe      # Compiled executable (Windows x64)
 └── README.md              # Documentation for the project
+
+## Sources
+- [coreutils/src
+/cp.c](https://github.com/coreutils/coreutils/blob/master/src/cp.c)
