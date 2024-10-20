@@ -1,4 +1,5 @@
-
+~~
+[deprecated]
 - TigerVNC Server
 ```bash
 sudo vi /etc/systemd/system/vncserver@1.service
@@ -32,3 +33,4 @@ For example:
 
 - Credits
 [startup](https://groups.google.com/g/tigervnc-users/c/2_--QTgJmjA/m/J_w1TQNgAwAJ)
+~~
