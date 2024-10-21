@@ -1,6 +1,4 @@
-# Introduction
-
-## CH1 各章節考題預測及重點整理
+# CH1 Introduction
 
 ### 1. 什麼是作業系統 (What is an Operating System)？
 
