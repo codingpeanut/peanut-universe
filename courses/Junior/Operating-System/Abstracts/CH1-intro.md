@@ -1,4 +1,4 @@
-# Chapter 1 - Introduction
+# CH1 - Introduction
 
 ### 1. 什麼是作業系統 (What is an Operating System)？
 
