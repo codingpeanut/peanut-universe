@@ -1,7 +1,5 @@
 # CH3 - Introduction-to-Quantum-Theory-of-Solids
 
-## CH3 各章節考題預測及重點整理
-
 ### 允許能帶與禁帶
 
 *   **能帶的形成：**
