@@ -28,6 +28,7 @@
     *   **記憶體管理資訊:** 分配給程序的記憶體。
     *   **帳戶資訊:** 程序已使用的 CPU 時間、程序開始後的經過時間、時間限制等。
     *   **輸入/輸出狀態資訊:** 分配給程序的輸入/輸出裝置、已開啟檔案的列表等。
+    ![](https://github.com/codingpeanut/peanut-universe/blob/af994460a4396efefb689fd4c70492b2bf6609e1/courses/Junior/Operating-System/Abstracts/assets/IMG_2782.jpeg)
 
 ### 三、程序排程 (Process Scheduling)
 
