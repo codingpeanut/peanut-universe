@@ -33,6 +33,7 @@
 *   **連結器:** 連結器將多個可重定位的目標檔案組合成一個可執行的二進制檔案，並連結所需的程式庫。
 *   **載入器:** 載入器將可執行檔案載入到記憶體中，並進行重定位，將程式的各個部分分配到最終的記憶體地址。
 *   **動態連結程式庫:** 現代作業系統通常使用動態連結程式庫 (DLL)，在程式執行時動態載入所需的程式庫，提高程式碼的重複使用率。
+![](https://github.com/codingpeanut/peanut-universe/blob/20acabc506ef3c45fd75e575e24656f2a8ba0fd3/courses/Junior/Operating-System/Abstracts/assets/IMG_2798.jpeg)
 
 ### 五、作業系統設計與實作 (Design and Implementation)
 
