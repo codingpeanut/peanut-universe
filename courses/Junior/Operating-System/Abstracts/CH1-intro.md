@@ -89,6 +89,8 @@
     *   虛擬化是指作業系統和客戶作業系統都以原生方式編譯，例如 VMware 在原生 WinXP 主機作業系統上執行 WinXP 客戶機。
 *   **虛擬機器管理器 (Virtual Machine Manager, VMM)**: 提供虛擬化服務。
 *   **虛擬化的應用**: 包括在筆記型電腦和桌上型電腦上執行多個作業系統以進行探索或相容性測試、在沒有多個系統的情況下為多個作業系統開發應用程式、執行 QA 測試，以及在資料中心內執行和管理運算環境。
+![](https://github.com/codingpeanut/peanut-universe/blob/00662920baa72d284dd0ae083f0672cba5ae808f/courses/Junior/Operating-System/Abstracts/assets/IMG_2788.jpeg)
+![](https://github.com/codingpeanut/peanut-universe/blob/00662920baa72d284dd0ae083f0672cba5ae808f/courses/Junior/Operating-System/Abstracts/assets/IMG_2789.jpeg)
 
 ### 10. 核心資料結構 (Kernel Data Structures)
 
