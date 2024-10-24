@@ -48,6 +48,7 @@
     *   快取 (Caching)：將資訊複製到更快的儲存系統中；主記憶體可以被視為次要儲存體的快取。
       ![](https://github.com/codingpeanut/peanut-universe/blob/6a1f5ae95c4a0be0480f312b5330afa6c306723b/courses/Junior/Operating-System/Abstracts/assets/IMG_2778.jpeg)
 *   **直接記憶體存取 (Direct Memory Access, DMA)**: 允許高速 I/O 設備在沒有 CPU 干預的情況下將資料直接傳輸到主記憶體，減少 CPU 的執行負擔。
+    ![](https://github.com/codingpeanut/peanut-universe/blob/948acbe44ab82bbff851b1f4038504ac8e80d9a5/courses/Junior/Operating-System/Abstracts/assets/IMG_2787.jpeg)
 
 ### 6. 電腦系統架構 (Computer System Architecture)
 
