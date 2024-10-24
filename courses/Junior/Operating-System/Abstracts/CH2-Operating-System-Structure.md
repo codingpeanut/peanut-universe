@@ -20,6 +20,7 @@
 *   **系統呼叫的實作:** 系統呼叫通常以數字編號，作業系統核心會根據編號執行對應的系統呼叫。
 *   **參數傳遞:** 程式可以透過多種方式將參數傳遞給系統呼叫，例如使用暫存器、記憶體區塊或堆疊。
 *   **系統呼叫的類型:** 常見的系統呼叫類型包括程序控制、檔案管理、裝置管理、資訊維護、通訊和保護。
+![](https://github.com/codingpeanut/peanut-universe/blob/c262be2b036bd5e9e3b30d4b4a33d6aaf9399e4a/courses/Junior/Operating-System/Abstracts/assets/IMG_2786.jpeg)
 
 ### 三、系統程式 (System Programs)
 
