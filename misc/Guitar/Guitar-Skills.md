@@ -5,3 +5,7 @@
 - Why You Should Learn Pentatonics
 [Pentatonics. Really?! - Mateus Asato](https://www.youtube.com/watch?v=o8ZmycInZIo)
 
+
+2. Funk
+* Basic Practice
+  * [Daft Punk - Get Lucky (guitar cover with tabs & chords)](https://youtu.be/UJla-UJnr5w)
