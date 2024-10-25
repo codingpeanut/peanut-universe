@@ -8,4 +8,4 @@
 
 2. Funk
   * Basic Practice
-    [Daft Punk - Get Lucky (guitar cover with tabs & chords)](https://youtu.be/UJla-UJnr5w)
+  - [Daft Punk - Get Lucky (guitar cover with tabs & chords)](https://youtu.be/UJla-UJnr5w)
