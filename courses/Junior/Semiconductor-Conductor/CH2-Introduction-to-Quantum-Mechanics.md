@@ -20,7 +20,7 @@
 *   **不確定性原理 (The Uncertainty Principle)：**
     *   海森堡在 1927 年提出不確定性原理，指出**粒子的位置**  **(x)**  **和動量**  **(p)**  **不可能同時被精確測量**。
     *   粒子的動量不確定度  **($\Delta p$)**  與位置不確定度  **($\Delta x$)**  之積不小於約化普朗克常數  **($\hbar$)**  的一半：
-        **$\Delta x \Delta p \ge \frac{\hbar}{2}$**
+        **$\Delta x \Delta p \ge \frac{\hbar}{2}$**  
         **$\hbar = \frac{h}{2 \pi} = 1.054 \times 10^{-34} J \cdot s$**
     *   同樣地，粒子的能量不確定度  **($\Delta E$)**  與時間不確定度  **($\Delta t$)**  之積也不小於約化普朗克常數的一半：
         **$\Delta E \Delta t \ge \frac{\hbar}{2}$**
