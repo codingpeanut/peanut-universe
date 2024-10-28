@@ -1,5 +1,8 @@
 # Semiconductor Physics
 
+> Textbook
+> [Semiconductor Physics and Devices: Basic Principles 4/e, Donald A. Neamen](https://www.optima.ufam.edu.br/SemPhys/Downloads/Neamen.pdf)
+
 ### 第一章：固體的晶體結構
 
 本章節主要介紹了固體的晶體結構，包含晶格、晶胞、晶面、原子鍵結以及固體中的缺陷和雜質等概念。
