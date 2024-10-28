@@ -139,3 +139,6 @@
 *   薛丁格波動方程式是量子力學的核心方程式。
 *   量子穿隧效應是量子力學的一個重要現象。
 *   單電子原子的量子力學模型可以解釋原子光譜的特性。
+
+### Source:
+[薛丁格的內褲：無限深方形阱 Infinite square well](http://cosinewithsqrtminusone.blogspot.com/2014/08/infinite-square-well.html)
