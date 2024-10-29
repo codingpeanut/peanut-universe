@@ -4,7 +4,7 @@
   [Code Link](https://www.mycompiler.io/view/7KwLLF7XUrf)
 
 ## **HW2**  
-  [Code Link](https://www.mycompiler.io/view/3h6TQTSs45F)
+  [Code Link](https://www.mycompiler.io/view/3h6TQTSs45F)  
   [Code Link Optimized](https://www.mycompiler.io/view/5fpbUN5mdLv)
 
 ## Midterm
