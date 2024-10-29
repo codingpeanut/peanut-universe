@@ -48,14 +48,14 @@
     [Code Link](https://www.mycompiler.io/view/84Az3JprLGa)
 
 ## Final
-- 1. Linked Stack  
+- Linked Stack (1)  
 
-- 1.4. Bracket Matching  
+- Bracket Matching (1.4.)  
 
-- 2.1. Linked Queues by Linked Stacks  
+- Linked Queues by Linked Stacks (2.1.)  
 
-- 2.2. Linked Stacks by Linked Queues  
+- Linked Stacks by Linked Queues (2.2.)  
 
-- 3. Linked List  
+- Linked List (3.)  
 
-- 4. Tree  
+- Tree (4.)  
