@@ -1,7 +1,5 @@
 # Remove My Script
-pull.bat
-push.bat
-clone.bat
+*.bat/
 
 # Remove IDE Settings
 .vscode/
