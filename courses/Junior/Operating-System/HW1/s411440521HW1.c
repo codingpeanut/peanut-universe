@@ -3,37 +3,35 @@
 #include <string.h>
 
 int main() {
-    char source[100], destination[100];
-    FILE *src, *dest;
+    char source[100], target[100];
+    FILE *src, *tgt;
     char buffer[1024];
     size_t bytes;
 
     // Get source file name and open it
-    while (1) {
-        printf("Enter source file name: ");
-        fgets(source, sizeof(source), stdin);
-        source[strcspn(source, "\n")] = 0; // Remove newline
-        src = fopen(source, "rb");
-        if (src) break;
-        if (strcmp(source, "q") == 0) return 0;
-        printf("File not found. Try again or enter 'q' to quit.\n");
-    }
+    printf("Source File: ");
+    fgets(source, sizeof(source), stdin);
+    source[strcspn(source, "\n")] = '\0'; // Remove newline
+    
+	if (!(src = fopen(source, "rb"))) {
+		printf("Source file not found.\n");
+		exit(EXIT_FAILURE);
+	}
 
-    // Get destination file name and handle existing files
+    // Get tgtination file name and handle existing files
     while (1) {
-        printf("Enter destination file name: ");
-        fgets(destination, sizeof(destination), stdin);
-        destination[strcspn(destination, "\n")] = 0;
+        printf("Target File: ");
+        fgets(target, sizeof(target), stdin);
+        target[strcspn(target, "\n")] = 0;
 
-        // Check if source and destination are the same
-        if (strcmp(source, destination) == 0) {
-            printf("Source and destination cannot be the same!\n");
+        // Check if source and target are the same
+        if (strcmp(source, target) == 0) {
+            printf("Source and target cannot be the same!\n");
             exit(EXIT_FAILURE);
         }
 
-        dest = fopen(destination, "rb");
-        if (dest) {
-            fclose(dest);
+        if (tgt = fopen(target, "rb")) {
+            fclose(tgt);
             printf("File exists. (a) Enter new name (b) Overwrite (c) Quit\n");
             char option = getchar();
             getchar(); // To consume newline
@@ -44,14 +42,14 @@ int main() {
         break; // File does not exist or chose to overwrite, break the loop
     }
 
-    // Open destination file and copy contents
-    dest = fopen(destination, "wb");
+    // Open target file and copy contents
+    tgt = fopen(target, "wb");
     while ((bytes = fread(buffer, 1, sizeof(buffer), src)) > 0) {
-        fwrite(buffer, 1, bytes, dest);
+        fwrite(buffer, 1, bytes, tgt);
     }
 
-    fclose(src);
-    fclose(dest);
     printf("File copied successfully!\n");
+    fclose(src);
+    fclose(tgt);
     return 0;
 }
