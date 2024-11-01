@@ -1,5 +1,5 @@
 # Remove My Script
-*.bat/
+*.bat
 
 # Remove IDE Settings
 .vscode/
