@@ -43,7 +43,12 @@ int main() {
     }
 
     // Open target file and copy contents
-    tgt = fopen(target, "wb");
+	if (!(tgt = fopen(target, "wb"))) {
+        perror("Error opening target file");
+        fclose(src); // Close source file before exiting
+        exit(EXIT_FAILURE);
+    }
+
     while ((bytes = fread(buffer, 1, sizeof(buffer), src)) > 0) {
         fwrite(buffer, 1, bytes, tgt);
     }
