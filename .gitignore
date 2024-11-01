@@ -1,5 +1,5 @@
-# Remove My Push Script
-push.bat
+# Remove My Script
+*.bat/
 
 # Remove IDE Settings
 .vscode/
