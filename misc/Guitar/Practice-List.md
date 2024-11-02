@@ -1,6 +1,6 @@
 - EZ
-1. [Heatwave - Boogie Nights](https://youtu.be/qkUaqt4WQAo?si=xFX_oJWFW8czlZ2d)  
-2. [Bon Jovi - Livin' on a Prayer](https://youtu.be/jgSf4cXrc9o?t=159&si=jLNNVCP48Lv3hb7i)  
+1. [Boogie Nights - Heatwave](https://youtu.be/qkUaqt4WQAo?si=xFX_oJWFW8czlZ2d)  
+2. [Livin' on a Prayer - Bon Jovi](https://youtu.be/jgSf4cXrc9o?t=159&si=jLNNVCP48Lv3hb7i)  
 
 
 
