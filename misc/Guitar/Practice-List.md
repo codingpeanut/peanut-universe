@@ -12,7 +12,7 @@
 
 
 
-- MIDDLE
+- MEDIUM
 1. [The Unforgiven (推弦，很噴的solo)](https://youtu.be/m8QRDrCcON0?t=202&si=40Tp8AUKoPT-D148)  
 2. [The Trooper (推弦、垂勾，很噴的solo)](https://youtu.be/ZpyQ2Q4GAok?t=133&si=uMqUYVLg7HVmVl6C)  
 3. [Man In The Box (油漬搖滾)](https://youtu.be/FWDn6t_u8Pg?t=159&si=NhD_Sf2-mJ5vL_fP)  
