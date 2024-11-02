@@ -22,7 +22,7 @@ int main() {
     while (1) {
         printf("Target File: ");
         fgets(target, sizeof(target), stdin);
-        target[strcspn(target, "\n")] = 0;
+        target[strcspn(target, "\n")] = '\0';
 
         // Check if source and target are the same
         if (strcmp(source, target) == 0) {
