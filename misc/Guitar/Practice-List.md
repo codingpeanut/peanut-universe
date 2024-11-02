@@ -29,7 +29,7 @@
 
 - SUPPLIMENT
 1. [The Thrill Is Gone - B.B.King (手Tone)](https://youtu.be/zNk5WBaqNqw?si=oxUYm9UJb69mQJFv)  
-- [Tower of Flower (花の塔)](https://youtu.be/IwkV_4DE9Nc?si=VSLK-sAnKHeXey73)  
+2. [Tower of Flower (花の塔)](https://youtu.be/IwkV_4DE9Nc?si=VSLK-sAnKHeXey73)  
 
 
 
