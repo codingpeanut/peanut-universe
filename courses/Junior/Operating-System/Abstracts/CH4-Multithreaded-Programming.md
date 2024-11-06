@@ -1,4 +1,4 @@
-## CH4 - 多執行緒程式設計筆記
+## CH4 - Multithreaded Programming
 
 ### 一、緒論
 
