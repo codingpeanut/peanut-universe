@@ -25,3 +25,7 @@ Jesse Livermore, one of the most famous stock traders of the early 20th century,
 
 8. **Be Patient and Avoid Impulsiveness**: He often stressed the importance of patience, noting that some of his best trades were a result of waiting for the right moment, sometimes even sitting out of the market if it didn’t meet his criteria.
 
+
+### Resources:  
+[【投資思想精華】 做空整個美國的交易之
+ 王--Jesse Livermore 傑西•利弗莫爾](https://youtu.be/8cph2_Xvfbo)
