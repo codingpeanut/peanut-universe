@@ -5,10 +5,10 @@
  - 期中期末小考要念熟，小考範圍以外看考古
 
 # 評分
-- Quiz 10% (Mid(5%) + Final(5%))
-- Assignment : 5%(file I/O), 10%(process scheduling)
-- Midterm Exam 25%
-- Final Exam 25%
-- Attendance 10%
-- Practicum 10%
-- Extra bonus 10%(answer questions)
+- 小考 10% (期中(5%) + 期末(5%))
+ - 作業：5%（file I/O），10%（process scheduling）
+ - 期中考 25%
+ - 期末考 25%
+ - 出席率 10%
+ - 實習課 10%
+ - 額外加分 10%（上課回答問題）
