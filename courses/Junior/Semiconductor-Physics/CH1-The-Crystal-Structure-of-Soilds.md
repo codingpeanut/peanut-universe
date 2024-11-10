@@ -101,3 +101,6 @@
 *   固體中的缺陷和雜質會影響材料的電氣和光學特性。
 *   摻雜是一種控制半導體材料電氣特性的重要技術。
 *   柴可拉斯基法是一種廣泛使用的矽晶圓生長方法。
+
+### Source: 
+*   [32: Face centered cubic unit cell](https://www.youtube.com/watch?v=gd1TJVJVTA4)
