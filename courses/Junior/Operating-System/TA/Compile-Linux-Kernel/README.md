@@ -29,7 +29,7 @@ cd linux-6.1
 ```bash
 cp -v /boot/config-$(uname -r) .config
 ```
-- 依照需求更新 `.config`。這裡以關閉 `TRUSTED KEYS` 為例
+- 依照需求更新 `.config`。這裡以關閉 `TRUSTED KEYS` 為例  
   找到 `Security options` -> `TRUSTED KEYS` 按空白鍵關閉功能
 ```bash
 make menuconfig
