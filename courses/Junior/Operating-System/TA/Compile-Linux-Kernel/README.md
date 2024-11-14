@@ -52,7 +52,7 @@ vim .config
 - `CONFIG_SYSTEM_TRUSTED_KEYS="debian\/canonical-certs.pem"`
 - `CONFIG_SYSTEM_REVOCATION_KEYS="debian\/canonical-revoked-certs.pem"`
 - `:wq`
-```bash
+```vim
 :g/CONFIG_SYSTEM_TRUSTED_KEYS="debian\/canonical-certs.pem"/d
 :g/CONFIG_SYSTEM_REVOCATION_KEYS="debian\/canonical-revoked-certs.pem"/d
 :wq
