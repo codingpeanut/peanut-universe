@@ -2,7 +2,7 @@
 
 ## 1. 查看當前 kernel 版本
 ```bash
-sudo uname -r
+uname -r
 ```
 
 ## 2. 檢查模組目錄
@@ -13,14 +13,15 @@ ll /lib/modules/
 ## 3. 更新與安裝所需套件
 ```bash
 sudo apt update
-sudo apt install gcc make libncurses-dev flex bison libssl-dev libelf-dev initramfs-tools-bin
+sudo apt upgrade -y
+sudo apt install build-essential libncurses-dev bison flex libssl-dev libelf-dev -y
 ```
 
 ## 4. 下載並解壓 kernel 原始碼
 ```bash
-wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.2.7.tar.xz
-tar -xvf linux-6.2.7.tar.xz
-cd linux-6.2.7
+wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.tar.xz
+tar -xvf linux-6.1.tar.xz
+cd linux-6.1
 ```
 
 ## 5. 進行 kernel 設定
@@ -48,18 +49,39 @@ vim .config
 
 ## 7. 編譯 kernel
 ```bash
-make -j 4
+make -j$(nproc)
 ```
 
-## 8. 安裝模組與 kernel
+## 8. 編譯 module
+```bash
+make modules -j$(nproc)
+```
+
+## 9. 安裝模組與 kernel
 ```bash
 sudo make modules_install
 sudo make install
 ```
 
-## 9. 重啟系統
+## 10. 更新 GRUB 選單
+```bash
+sudo update-grub
+```
+
+## 11. 重啟系統
 ```bash
 sudo reboot
+```
+
+## 12. 切換 kernel
+- 開機時按 `F4` 進入 GRUB 選單
+在選單中依序選擇
+1. `Advanced options for Ubuntu`
+2. 選擇要開機的 kernel。這裡選 `Ubuntu, with Linux 6.1.0`
+
+## 13. 驗證是否切換成功
+```bash
+uname -r
 ```
 
 https://phoenixnap.com/kb/build-linux-kernel
