@@ -37,7 +37,7 @@ void *sort_and_sum(void *arg) {
 }
 
 void *merge_columns(void *arg) {
-    ThreadData *threads_data = (ThreadData *)arg; // 注意這裡的類型應該是 ThreadData*
+    ThreadData *threads_data = (ThreadData *)arg;
     int total_size = 0;
 
     // Calculate total size for merged array
@@ -152,8 +152,8 @@ int main() {
     
     pthread_join(merge_thread, NULL);
 
-    for (int col = 0; col < NUM_COLUMNS; col++)
-        free(thread_data[col].data);
+	for (int col = 0; col < NUM_COLUMNS; col++)
+		free(thread_data[col].data);
 
     return 0;
 }
