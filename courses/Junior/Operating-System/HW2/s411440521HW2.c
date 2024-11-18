@@ -125,6 +125,7 @@ int main() {
 
     // Join threads and write sorted column and sum to output file
     for (int col = 0; col < NUM_COLUMNS; col++) {
+        // Wait for each thread to finish
         pthread_join(threads[col], NULL);
 
         output_file = fopen("output.txt", "a");
