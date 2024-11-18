@@ -22,12 +22,11 @@ int compare(const void *a, const void *b) {
 
 void *sort_and_sum(void *arg) {
     ThreadData *td = (ThreadData *)arg;
-    int column = td->column;
     int *data = td->data;
     int size = td->size;
 
     // Sort the column data
-	qsort(data, size, sizeof(int), compare);
+    qsort(data, size, sizeof(int), compare);
 
     // Calculate the sum
     td->sum = 0;
@@ -38,29 +37,35 @@ void *sort_and_sum(void *arg) {
 }
 
 void *merge_columns(void *arg) {
-    ThreadData **threads_data = (ThreadData **)arg;
+    ThreadData *threads_data = (ThreadData *)arg; // 注意這裡的類型應該是 ThreadData*
     int total_size = 0;
 
     // Calculate total size for merged array
     for (int i = 0; i < NUM_COLUMNS; i++)
-        total_size += threads_data[i]->size;
+        total_size += threads_data[i].size;
 
     int *merged_data = malloc(total_size * sizeof(int));
     int index = 0;
 
     // Merge sorted columns
     for (int i = 0; i < NUM_COLUMNS; i++) {
-        memcpy(merged_data + index, threads_data[i]->data, threads_data[i]->size * sizeof(int));
-        index += threads_data[i]->size;
+        memcpy(merged_data + index, threads_data[i].data, threads_data[i].size * sizeof(int));
+        index += threads_data[i].size;
     }
 
     // Sort merged data
-	qsort(merged_data, total_size, sizeof(int), compare);
+    qsort(merged_data, total_size, sizeof(int), compare);
 
     // Output merged data to file
     FILE *output_file = fopen("output.txt", "a");
     
-    // Write merged results in specified format
+    if (!output_file) {
+        perror("File opening failed");
+        free(merged_data);
+        pthread_exit(NULL);
+    }
+    
+    // Write merged results
     fprintf(output_file, "=================================================\n");
     
     for (int i = 0; i < total_size; i++) {
@@ -139,8 +144,6 @@ int main() {
         fprintf(output_file, "\nsum %d: %ld\n", col + 1, thread_data[col].sum);
         
         fclose(output_file);
-        
-        free(thread_data[col].data);
     }
 
     pthread_t merge_thread;
@@ -148,6 +151,9 @@ int main() {
     pthread_create(&merge_thread, NULL, merge_columns, thread_data);
     
     pthread_join(merge_thread, NULL);
+
+	for (int col = 0; col < NUM_COLUMNS; col++)
+		free(thread_data[col].data);
 
     return 0;
 }
