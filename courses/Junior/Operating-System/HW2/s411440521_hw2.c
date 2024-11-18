@@ -123,9 +123,8 @@ int main() {
         thread_data[col].size = row_count;
         thread_data[col].data = malloc(row_count * sizeof(int));
         
-        for (int row = 0; row < row_count; row++) {
+        for (int row = 0; row < row_count; row++)
             thread_data[col].data[row] = data[row][col];
-        }
 
         pthread_create(&threads[col], NULL, sort_and_sum, &thread_data[col]);
         
@@ -152,8 +151,8 @@ int main() {
     
     pthread_join(merge_thread, NULL);
 
-	for (int col = 0; col < NUM_COLUMNS; col++)
-		free(thread_data[col].data);
+    for (int col = 0; col < NUM_COLUMNS; col++)
+        free(thread_data[col].data);
 
     return 0;
 }
