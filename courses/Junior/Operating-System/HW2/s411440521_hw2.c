@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 #define NUM_COLUMNS 4
-#define MAX_ROWS 100
+#define MAX_ROWS 1000
 #define MAX_LINE_LENGTH 256
 
 typedef struct {
