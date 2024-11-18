@@ -152,8 +152,8 @@ int main() {
     
     pthread_join(merge_thread, NULL);
 
-	for (int col = 0; col < NUM_COLUMNS; col++)
-		free(thread_data[col].data);
+    for (int col = 0; col < NUM_COLUMNS; col++)
+        free(thread_data[col].data);
 
     return 0;
 }
