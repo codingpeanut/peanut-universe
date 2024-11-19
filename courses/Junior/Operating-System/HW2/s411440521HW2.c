@@ -47,6 +47,11 @@ void *merge_columns(void *arg) {
     }
 
     int *merged_data = malloc(total_size * sizeof(int));
+    if (!merged_data) {
+        perror("Memory allocation failed");
+        pthread_exit(NULL);
+    }
+
     int index = 0;
 
     // Merge sorted columns
@@ -69,8 +74,10 @@ void *merge_columns(void *arg) {
     fprintf(output_file, "=================================================\n");
     for (int i = 0; i < total_size; i++) {
         fprintf(output_file, "%d", merged_data[i]);
-        if ((i + 1) % 40 == 0) fprintf(output_file, "\n");
-        else if (i != total_size - 1) fprintf(output_file, ", ");
+        if ((i + 1) % 40 == 0)
+            fprintf(output_file, "\n");
+        else if (i != total_size - 1)
+            fprintf(output_file, ", ");
     }
     fprintf(output_file, "\n");
 
@@ -97,8 +104,8 @@ void read_input(const char *filename, int data[MAX_ROWS][NUM_COLUMNS], int *row_
 }
 
 int main() {
-    char input_filename[100];
-    printf("Enter the source file name: ");
+    char input_filename[100], output_filename[100];
+    printf("Input File: ");
     scanf("%s", input_filename);
 
     int data[MAX_ROWS][NUM_COLUMNS];
@@ -108,27 +115,57 @@ int main() {
     pthread_t threads[NUM_COLUMNS];
     ThreadData thread_data[NUM_COLUMNS];
 
+    // Get target file name and handle existing files
+    while (1) {
+        printf("Output File: ");
+        scanf("%s", output_filename);
+
+        // Check if source and target are the same
+        if (strcmp(input_filename, output_filename) == 0) {
+            printf("Source and target cannot be the same!\n");
+            continue;
+        }
+
+        FILE *file = fopen(output_filename, "r");
+        if (file) {
+            fclose(file);
+            printf("File exists. (a) Enter new name (b) Overwrite (c) Quit\n");
+            char option;
+            scanf(" %c", &option);
+            // getchar(); // To consume newline
+            if (option == 'a') continue;
+            if (option == 'c') return 0;
+        }
+        
+        break;
+    }
+
     // Clear previous content of output file at start
-    FILE *output_file = fopen("output.txt", "w");
+    FILE *output_file = fopen(output_filename, "w");
     if (output_file) fclose(output_file);
 
+    // Create threads
     for (int col = 0; col < NUM_COLUMNS; col++) {
         thread_data[col].column = col;
         thread_data[col].size = row_count;
         thread_data[col].data = malloc(row_count * sizeof(int));
+        if (!thread_data[col].data) {
+            perror("Memory allocation failed");
+            exit(EXIT_FAILURE);
+        }
 
-        for (int row = 0; row < row_count; row++)
+        for (int row = 0; row < row_count; row++) {
             thread_data[col].data[row] = data[row][col];
+        }
 
         pthread_create(&threads[col], NULL, sort_and_sum, &thread_data[col]);
     }
 
     // Join threads and write sorted column and sum to output file
     for (int col = 0; col < NUM_COLUMNS; col++) {
-        // Wait for each thread to finish
         pthread_join(threads[col], NULL);
 
-        output_file = fopen("output.txt", "a");
+        FILE *output_file = fopen(output_filename, "a");
         if (!output_file) {
             perror("File opening failed");
             exit(EXIT_FAILURE);
@@ -140,18 +177,17 @@ int main() {
             if (row != row_count - 1) fprintf(output_file, ", ");
         }
         fprintf(output_file, "\nsum %d: %ld\n", col + 1, thread_data[col].sum);
-        
+
         fclose(output_file);
     }
 
     pthread_t merge_thread;
-    
     pthread_create(&merge_thread, NULL, merge_columns, thread_data);
-    
     pthread_join(merge_thread, NULL);
 
-    for (int col = 0; col < NUM_COLUMNS; col++)
+    for (int col = 0; col < NUM_COLUMNS; col++) {
         free(thread_data[col].data);
+    }
 
     return 0;
 }
