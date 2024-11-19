@@ -132,7 +132,6 @@ int main() {
             printf("File exists. (a) Enter new name (b) Overwrite (c) Quit\n");
             char option;
             scanf(" %c", &option);
-            // getchar(); // To consume newline
             if (option == 'a') continue;
             if (option == 'c') return 0;
         }
@@ -149,14 +148,14 @@ int main() {
         thread_data[col].column = col;
         thread_data[col].size = row_count;
         thread_data[col].data = malloc(row_count * sizeof(int));
+        
         if (!thread_data[col].data) {
             perror("Memory allocation failed");
             exit(EXIT_FAILURE);
         }
 
-        for (int row = 0; row < row_count; row++) {
+        for (int row = 0; row < row_count; row++)
             thread_data[col].data[row] = data[row][col];
-        }
 
         pthread_create(&threads[col], NULL, sort_and_sum, &thread_data[col]);
     }
@@ -185,9 +184,8 @@ int main() {
     pthread_create(&merge_thread, NULL, merge_columns, thread_data);
     pthread_join(merge_thread, NULL);
 
-    for (int col = 0; col < NUM_COLUMNS; col++) {
+    for (int col = 0; col < NUM_COLUMNS; col++)
         free(thread_data[col].data);
-    }
 
     return 0;
 }
