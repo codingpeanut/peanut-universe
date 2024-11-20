@@ -22,3 +22,5 @@
    else:
        print("不能拒絕原假設：兩個基金的回報率無顯著差異")
    ```
+### 資料來源
+[t 檢定 - 統計學知識入口網站](https://www.jmp.com/zh_tw/statistics-knowledge-portal/t-test.html)
