@@ -12,6 +12,12 @@ typedef struct {
     long sum;
 } ThreadData;
 
+typedef struct {
+    ThreadData *thread_data;
+    int row_count;
+    const char *output_filename;
+} MergeData;
+
 // Comparison function for qsort
 int compare(const void *a, const void *b) {
     return (*(int *)a - *(int *)b);
@@ -34,13 +40,18 @@ void *sort_and_sum(void *arg) {
 }
 
 // Merge and output the columns to a file
-void merge_columns(ThreadData *thread_data, int row_count, const char *output_filename) {
+void *merge_columns(void *arg) {
+    MergeData *md = (MergeData *)arg;
+    ThreadData *thread_data = md->thread_data;
+    int row_count = md->row_count;
+    const char *output_filename = md->output_filename;
+
     int total_size = NUM_COLUMNS * row_count;
     int *merged_data = malloc(total_size * sizeof(int));
 
     if (!merged_data) {
         perror("Memory allocation failed");
-        return;
+        pthread_exit(NULL);
     }
 
     int index = 0;
@@ -59,7 +70,7 @@ void merge_columns(ThreadData *thread_data, int row_count, const char *output_fi
     if (!output_file) {
         perror("File opening failed");
         free(merged_data);
-        return;
+        pthread_exit(NULL);
     }
 
     fprintf(output_file, "=================================================\n");
@@ -74,6 +85,8 @@ void merge_columns(ThreadData *thread_data, int row_count, const char *output_fi
 
     fclose(output_file);
     free(merged_data);
+
+    pthread_exit(NULL);
 }
 
 int main() {
@@ -158,8 +171,13 @@ int main() {
         fclose(output_file);
     }
 
-    // Merge and write all columns to output file
-    merge_columns(thread_data, row_count, output_filename);
+    // Create a thread for merging
+    pthread_t merge_thread;
+    MergeData merge_data = {thread_data, row_count, output_filename};
+    pthread_create(&merge_thread, NULL, merge_columns, &merge_data);
+
+    // Wait for the merge thread to finish
+    pthread_join(merge_thread, NULL);
 
     // Free allocated memory
     for (int col = 0; col < NUM_COLUMNS; col++)
@@ -167,4 +185,3 @@ int main() {
 
     return 0;
 }
-
