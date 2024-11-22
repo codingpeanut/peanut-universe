@@ -69,7 +69,7 @@ int main() {
 
     // Open input file
     input_file = fopen(input_filename, "r");
-    CHECK_FILE(input_file);
+    CHECK_FILE(input_file, input_filename);
 
     // Read input data
     int data[MAX_ROWS][NUM_COLUMNS];
