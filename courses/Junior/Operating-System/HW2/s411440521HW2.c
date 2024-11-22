@@ -54,9 +54,8 @@ void *merge_columns(void *arg) {
         pthread_exit(NULL);
     }
 
-    int index = 0;
-
     // Merge sorted columns
+    int index = 0;
     for (int i = 0; i < NUM_COLUMNS; i++) {
         memcpy(merged_data + index, thread_data[i].data, row_count * sizeof(int));
         index += row_count;
@@ -76,16 +75,14 @@ void *merge_columns(void *arg) {
     fprintf(output_file, "=================================================\n");
     for (int i = 0; i < total_size; i++) {
         fprintf(output_file, "%d", merged_data[i]);
-        if ((i + 1) % 40 == 0)
-            fprintf(output_file, "\n");
-        else if (i != total_size - 1)
-            fprintf(output_file, ", ");
+        if ((i + 1) % 40 == 0) fprintf(output_file, "\n");
+        else if (i != total_size - 1) fprintf(output_file, ", ");
     }
     fprintf(output_file, "\n");
 
+    // Clean up
     fclose(output_file);
     free(merged_data);
-
     pthread_exit(NULL);
 }
 
@@ -154,6 +151,7 @@ int main() {
         pthread_create(&threads[col], NULL, sort_and_sum, &thread_data[col]);
     }
 
+    // Open output file
     FILE *output_file = fopen(output_filename, "a");
     if (!output_file) {
         perror("File opening failed");
@@ -171,7 +169,6 @@ int main() {
         }
         fprintf(output_file, "\nsum %d: %ld\n", col + 1, thread_data[col].sum);
     }
-
     fclose(output_file);
 
     // Create a thread for merging
