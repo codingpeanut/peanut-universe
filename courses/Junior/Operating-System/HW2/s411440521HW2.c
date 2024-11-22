@@ -6,6 +6,10 @@
 #define NUM_COLUMNS 4
 #define MAX_ROWS 1000
 
+// Macro for error handling
+#define CHECK_ALLOC(ptr) if (!(ptr)) { perror("Memory allocation failed"); goto finally; }
+#define CHECK_FILE(fp, filename) if (!(fp)) { fprintf(stderr, "Failed to open %s\n", filename); goto finally; }
+
 typedef struct {
     int *data;
     int size;
@@ -65,8 +69,7 @@ int main() {
 
     // Open input file
     input_file = fopen(input_filename, "r");
-    if (!input_file)
-        return perror("File opening failed"), EXIT_FAILURE;
+    CHECK_FILE(input_file);
 
     // Read input data
     int data[MAX_ROWS][NUM_COLUMNS];
@@ -112,10 +115,7 @@ int main() {
         thread_data[col].size = row_count;
         thread_data[col].data = malloc(row_count * sizeof(int));
 
-        if (!thread_data[col].data) {
-            perror("Memory allocation failed");
-            goto finally;
-        }
+        CHECK_ALLOC(thread_data[col].data);
 
         for (int row = 0; row < row_count; row++)
             thread_data[col].data[row] = data[row][col];
@@ -125,10 +125,7 @@ int main() {
 
     // Open output file
     output_file = fopen(output_filename, "a");
-    if (!output_file) {
-        perror("File opening failed");
-        goto finally;
-    }
+    CHECK_FILE(output_file, output_filename);
 
     // Join threads and write sorted column and sum to output file
     for (int col = 0; col < NUM_COLUMNS; col++) {
@@ -145,10 +142,7 @@ int main() {
 
     // Merge all column data
     int *merged_data = malloc(NUM_COLUMNS * row_count * sizeof(int));
-    if (!merged_data) {
-        perror("Memory allocation failed");
-        goto finally;
-    }
+    CHECK_ALLOC(merged_data);
 
     // Create a thread for merging
     pthread_t merge_thread;
@@ -160,10 +154,7 @@ int main() {
 
     // Write merged results to the output file
     output_file = fopen(output_filename, "a");
-    if (!output_file) {
-        perror("File opening failed");
-        goto finally;
-    }
+    CHECK_FILE(output_file, output_filename);
 
     fprintf(output_file, "=================================================\n");
     for (int i = 0; i < NUM_COLUMNS * row_count; i++) {
