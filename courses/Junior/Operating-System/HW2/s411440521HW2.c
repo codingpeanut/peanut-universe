@@ -22,17 +22,35 @@ typedef struct {
     int *merged_data;
 } MergeData;
 
-// Comparison function for qsort
-int compare(const void *a, const void *b) {
-    return (*(int *)a - *(int *)b);
+// Merge function for merge sort
+void merge(int *arr, int left, int mid, int right) {
+    int n1 = mid - left + 1, n2 = right - mid;
+    int L[n1], R[n2];
+    for (int i = 0; i < n1; i++) L[i] = arr[left + i];
+    for (int i = 0; i < n2; i++) R[i] = arr[mid + 1 + i];
+
+    int i = 0, j = 0, k = left;
+    while (i < n1 && j < n2) arr[k++] = (L[i] <= R[j]) ? L[i++] : R[j++];
+    while (i < n1) arr[k++] = L[i++];
+    while (j < n2) arr[k++] = R[j++];
+}
+
+// Merge sort function
+void merge_sort(int *arr, int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+        merge_sort(arr, left, mid);
+        merge_sort(arr, mid + 1, right);
+        merge(arr, left, mid, right);
+    }
 }
 
 // Sort and sum each column
 void *sort_and_sum(void *arg) {
     ThreadData *td = (ThreadData *)arg;
 
-    // Sort the column data
-    qsort(td->data, td->size, sizeof(int), compare);
+    // Sort the column data using merge sort
+    merge_sort(td->data, 0, td->size - 1);
 
     // Calculate the sum
     td->sum = 0;
@@ -56,7 +74,7 @@ void *merge_columns(void *arg) {
     }
 
     // Sort the merged data
-    qsort(merged_data, NUM_COLUMNS * md->row_count, sizeof(int), compare);
+    merge_sort(merged_data, 0, NUM_COLUMNS * md->row_count - 1);
 
     pthread_exit(NULL);
 }
@@ -169,7 +187,13 @@ finally:
     // Free allocated memory
     free(merged_data);
     for (int col = 0; col < NUM_COLUMNS; col++)
-        free(thread_data[col].data);
+       free(thread_data[col].data);
 
-    return 0;
+    // Close the file if the program terminated unexpectedly
+    if (input_file) fclose(input_file);
+    if (output_file) fclose(output_file);
+
+    // Return success or failure based on resource initialization
+    return (input_file && output_file && merged_data) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
+
