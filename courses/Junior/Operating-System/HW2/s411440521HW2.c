@@ -15,7 +15,7 @@ typedef struct {
 typedef struct {
     ThreadData *thread_data;
     int row_count;
-    const char *output_filename;
+    int *merged_data;
 } MergeData;
 
 // Comparison function for qsort
@@ -39,50 +39,21 @@ void *sort_and_sum(void *arg) {
     pthread_exit(NULL);
 }
 
-// Merge and output the columns to a file
+// Merge all column data
 void *merge_columns(void *arg) {
     MergeData *md = (MergeData *)arg;
+    int *merged_data = md->merged_data;
     ThreadData *thread_data = md->thread_data;
-    int row_count = md->row_count;
-    const char *output_filename = md->output_filename;
 
-    int total_size = NUM_COLUMNS * row_count;
-    int *merged_data = malloc(total_size * sizeof(int));
-
-    if (!merged_data) {
-        perror("Memory allocation failed");
-        pthread_exit(NULL);
-    }
-
-    // Merge sorted columns
     int index = 0;
     for (int i = 0; i < NUM_COLUMNS; i++) {
-        memcpy(merged_data + index, thread_data[i].data, row_count * sizeof(int));
-        index += row_count;
+        memcpy(merged_data + index, thread_data[i].data, md->row_count * sizeof(int));
+        index += md->row_count;
     }
 
-    // Sort merged data
-    qsort(merged_data, total_size, sizeof(int), compare);
+    // Sort the merged data
+    qsort(merged_data, NUM_COLUMNS * md->row_count, sizeof(int), compare);
 
-    // Output merged data to file
-    FILE *output_file = fopen(output_filename, "a");
-    if (!output_file) {
-        perror("File opening failed");
-        free(merged_data);
-        pthread_exit(NULL);
-    }
-
-    fprintf(output_file, "=================================================\n");
-    for (int i = 0; i < total_size; i++) {
-        fprintf(output_file, "%d", merged_data[i]);
-        if ((i + 1) % 40 == 0) fprintf(output_file, "\n");
-        else if (i != total_size - 1) fprintf(output_file, ", ");
-    }
-    fprintf(output_file, "\n");
-
-    // Clean up
-    fclose(output_file);
-    free(merged_data);
     pthread_exit(NULL);
 }
 
@@ -167,15 +138,35 @@ int main() {
     }
     fclose(output_file);
 
+    // Merge all column data
+    int *merged_data = malloc(MAX_COLUMNS * row_count * sizeof(int));
+    if (!merged_data)
+        return perror("Memory allocation failed"), EXIT_FAILURE;
+
     // Create a thread for merging
     pthread_t merge_thread;
-    MergeData merge_data = {thread_data, row_count, output_filename};
+    MergeData merge_data = {thread_data, row_count, merged_data};
     pthread_create(&merge_thread, NULL, merge_columns, &merge_data);
 
     // Wait for the merge thread to finish
     pthread_join(merge_thread, NULL);
 
+    // Write merged results to the output file
+    output_file = fopen(output_filename, "a");
+    if (!output_file)
+        return perror("File opening failed"), EXIT_FAILURE;
+
+    fprintf(output_file, "=================================================\n");
+    for (int i = 0; i < NUM_COLUMNS * row_count; i++) {
+        fprintf(output_file, "%d", merged_data[i]);
+        if ((i + 1) % 40 == 0) fprintf(output_file, "\n");
+        else if (i != NUM_COLUMNS * row_count - 1) fprintf(output_file, ", ");
+    }
+    fprintf(output_file, "\n");
+    fclose(output_file);
+
     // Free allocated memory
+    free(merged_data);
     for (int col = 0; col < NUM_COLUMNS; col++)
         free(thread_data[col].data);
 
