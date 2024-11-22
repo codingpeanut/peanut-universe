@@ -156,9 +156,10 @@ int main() {
 
     FILE *output_file = fopen(output_filename, "a");
     if (!output_file) {
-        perror("Error opening output file");
-        return -1; // 或適當的錯誤處理
+        perror("File opening failed");
+        return EXIT_FAILURE;
     }
+
     // Join threads and write sorted column and sum to output file
     for (int col = 0; col < NUM_COLUMNS; col++) {
         pthread_join(threads[col], NULL);
@@ -170,6 +171,7 @@ int main() {
         }
         fprintf(output_file, "\nsum %d: %ld\n", col + 1, thread_data[col].sum);
     }
+
     fclose(output_file);
 
     // Create a thread for merging
