@@ -59,11 +59,12 @@ void *merge_columns(void *arg) {
 
 int main() {
     char input_filename[100], output_filename[100];
+    FILE *input_file, *output_file;
     printf("Input File: ");
     scanf("%s", input_filename);
 
     // Open input file
-    FILE *input_file = fopen(input_filename, "r");
+    input_file = fopen(input_filename, "r");
     if (!input_file)
         return perror("File opening failed"), EXIT_FAILURE;
 
@@ -101,7 +102,7 @@ int main() {
     }
 
     // Clear previous content of output file
-    FILE *output_file = fopen(output_filename, "w");
+    output_file = fopen(output_filename, "w");
     fclose(output_file);
 
     // Create threads for sorting and summing columns
@@ -111,8 +112,10 @@ int main() {
         thread_data[col].size = row_count;
         thread_data[col].data = malloc(row_count * sizeof(int));
 
-        if (!thread_data[col].data)
-            return perror("Memory allocation failed"), EXIT_FAILURE;
+        if (!thread_data[col].data) {
+            perror("Memory allocation failed");
+            goto finally;
+        }
 
         for (int row = 0; row < row_count; row++)
             thread_data[col].data[row] = data[row][col];
@@ -121,9 +124,11 @@ int main() {
     }
 
     // Open output file
-    FILE *output_file = fopen(output_filename, "a");
-    if (!output_file)
-        return perror("File opening failed"), EXIT_FAILURE;
+    output_file = fopen(output_filename, "a");
+    if (!output_file) {
+        perror("File opening failed");
+        goto finally;
+    }
 
     // Join threads and write sorted column and sum to output file
     for (int col = 0; col < NUM_COLUMNS; col++) {
@@ -139,9 +144,11 @@ int main() {
     fclose(output_file);
 
     // Merge all column data
-    int *merged_data = malloc(MAX_COLUMNS * row_count * sizeof(int));
-    if (!merged_data)
-        return perror("Memory allocation failed"), EXIT_FAILURE;
+    int *merged_data = malloc(NUM_COLUMNS * row_count * sizeof(int));
+    if (!merged_data) {
+        perror("Memory allocation failed");
+        goto finally;
+    }
 
     // Create a thread for merging
     pthread_t merge_thread;
@@ -153,8 +160,10 @@ int main() {
 
     // Write merged results to the output file
     output_file = fopen(output_filename, "a");
-    if (!output_file)
-        return perror("File opening failed"), EXIT_FAILURE;
+    if (!output_file) {
+        perror("File opening failed");
+        goto finally;
+    }
 
     fprintf(output_file, "=================================================\n");
     for (int i = 0; i < NUM_COLUMNS * row_count; i++) {
@@ -165,6 +174,7 @@ int main() {
     fprintf(output_file, "\n");
     fclose(output_file);
 
+finally:
     // Free allocated memory
     free(merged_data);
     for (int col = 0; col < NUM_COLUMNS; col++)
