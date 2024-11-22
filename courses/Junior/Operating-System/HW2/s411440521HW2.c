@@ -93,10 +93,8 @@ int main() {
 
     // Open input file
     FILE *input_file = fopen(input_filename, "r");
-    if (!input_file) {
-        perror("File opening failed");
-        return EXIT_FAILURE;
-    }
+    if (!input_file)
+        return perror("File opening failed"), EXIT_FAILURE;
 
     // Read input data
     int data[MAX_ROWS][NUM_COLUMNS];
@@ -153,10 +151,8 @@ int main() {
 
     // Open output file
     FILE *output_file = fopen(output_filename, "a");
-    if (!output_file) {
-        perror("File opening failed");
-        return EXIT_FAILURE;
-    }
+    if (!output_file)
+        return perror("File opening failed"), EXIT_FAILURE;
 
     // Join threads and write sorted column and sum to output file
     for (int col = 0; col < NUM_COLUMNS; col++) {
