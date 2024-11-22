@@ -111,9 +111,6 @@ int main() {
     }
     fclose(input_file);
 
-    pthread_t threads[NUM_COLUMNS];
-    ThreadData thread_data[NUM_COLUMNS];
-
     // Get target file name and handle existing files
     while (1) {
         printf("Output File: ");
@@ -142,14 +139,14 @@ int main() {
     fclose(output_file);
 
     // Create threads for sorting and summing columns
+    pthread_t threads[NUM_COLUMNS];
+    ThreadData thread_data[NUM_COLUMNS];
     for (int col = 0; col < NUM_COLUMNS; col++) {
         thread_data[col].size = row_count;
         thread_data[col].data = malloc(row_count * sizeof(int));
 
-        if (!thread_data[col].data) {
-            perror("Memory allocation failed");
-            return EXIT_FAILURE;
-        }
+        if (!thread_data[col].data)
+            return perror("Memory allocation failed"), EXIT_FAILURE;
 
         for (int row = 0; row < row_count; row++)
             thread_data[col].data[row] = data[row][col];
@@ -157,19 +154,23 @@ int main() {
         pthread_create(&threads[col], NULL, sort_and_sum, &thread_data[col]);
     }
 
+    FILE *output_file = fopen(output_filename, "a");
+    if (!output_file) {
+        perror("Error opening output file");
+        return -1; // 或適當的錯誤處理
+    }
     // Join threads and write sorted column and sum to output file
     for (int col = 0; col < NUM_COLUMNS; col++) {
         pthread_join(threads[col], NULL);
 
-        FILE *output_file = fopen(output_filename, "a");
         fprintf(output_file, "Thread %d: ", col + 1);
         for (int row = 0; row < row_count; row++) {
             fprintf(output_file, "%d", thread_data[col].data[row]);
             if (row != row_count - 1) fprintf(output_file, ", ");
         }
         fprintf(output_file, "\nsum %d: %ld\n", col + 1, thread_data[col].sum);
-        fclose(output_file);
     }
+    fclose(output_file);
 
     // Create a thread for merging
     pthread_t merge_thread;
