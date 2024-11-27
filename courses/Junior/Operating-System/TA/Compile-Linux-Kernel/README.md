@@ -98,5 +98,5 @@ uname -r
 ```
 
 ## 參考資料
-https://phoenixnap.com/kb/build-linux-kernel  
-https://www.cyberciti.biz/faq/debian-redhat-linux-delete-kernel-command/
+- [How to Build Linux Kernel From Scratch {Step-By-Step Guide} - Goran Jevtic](https://phoenixnap.com/kb/build-linux-kernel)
+- [How to: Linux delete or remove kernel - Vivek Gite](https://www.cyberciti.biz/faq/debian-redhat-linux-delete-kernel-command/)
