@@ -33,6 +33,8 @@ cp -v /boot/config-$(uname -r) .config
   找到 `Security options` -> `TRUSTED KEYS` 按空白鍵關閉功能
 ```bash
 make menuconfig
+```
+```plaintext
 s <enter>
 t <enter>
 <space><enter>
