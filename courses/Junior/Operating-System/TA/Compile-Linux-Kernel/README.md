@@ -25,10 +25,12 @@ cd linux-6.1
 ```
 
 ## 5. 進行 kernel 設定
+<!-- 
 - 複製現有的 `.config` 到當前目錄
 ```bash
 cp -v /boot/config-$(uname -r) .config
 ```
+-->
 - 依照需求更新 `.config`。這裡以關閉 `TRUSTED KEYS` 為例  
   找到 `Security options` -> `TRUSTED KEYS` 按空白鍵關閉功能
 ```bash
