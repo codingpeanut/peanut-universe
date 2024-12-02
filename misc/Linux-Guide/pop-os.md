@@ -55,6 +55,6 @@ sh -c "$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/
 
 ### Sources
 [Debian/Ubuntu Packages](https://apt.syncthing.net/)  
-[Starting Syncthing Automatically](https://docs.syncthing.net/users/autostart.html#linux)
-[Discord for Linux](https://discord.com/api/download?platform=linux&format=deb)
-[Vencord](https://vencord.dev/download/)
+[Starting Syncthing Automatically](https://docs.syncthing.net/users/autostart.html#linux)  
+[Discord for Linux](https://discord.com/api/download?platform=linux&format=deb)  
+[Vencord](https://vencord.dev/download/)  
