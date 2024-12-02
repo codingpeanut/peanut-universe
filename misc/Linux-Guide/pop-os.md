@@ -30,9 +30,31 @@ rm -rf ~/.config/nvim/.git
 ```
 
 ### Syncthing
-[Debian/Ubuntu Packages](https://apt.syncthing.net/)  
-[Starting Syncthing Automatically](https://docs.syncthing.net/users/autostart.html#linux)
+```bash
+sudo mkdir -p /etc/apt/keyrings
+sudo curl -L -o /etc/apt/keyrings/syncthing-archive-keyring.gpg https://syncthing.net/release-key.gpg
+sudo apt-get update
+sudo apt-get install syncthing
+```
+```bash
+mkdir ~/.config/autostart/
+cp /usr/share/applications/syncthing-start.desktop ~/.config/autostart/
+```
 
 ### Discord
-[Discord for Linux](https://discord.com/api/download?platform=linux&format=deb)
+```bash
+wget -O discord.deb "https://discord.com/api/download?platform=linux&format=deb"
+sudo apt install ./discord.deb
+rm discord.deb
+```
 
+### Vencord
+```bash
+sh -c "$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)"
+```
+
+### Sources
+[Debian/Ubuntu Packages](https://apt.syncthing.net/)  
+[Starting Syncthing Automatically](https://docs.syncthing.net/users/autostart.html#linux)
+[Discord for Linux](https://discord.com/api/download?platform=linux&format=deb)
+[Vencord](https://vencord.dev/download/)
