@@ -1,5 +1,14 @@
 # My Pop!_OS Installation Script
 
+### Pop Shell
+```bash
+sudo apt install git node-typescript make gnome-shell-extension-prefs
+git clone https://github.com/pop-os/shell.git
+cd shell
+git checkout master_noble
+make local-install
+```
+
 ### Nerdfont
 
 1. Download the Font
@@ -58,3 +67,4 @@ sh -c "$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/
 [Starting Syncthing Automatically](https://docs.syncthing.net/users/autostart.html#linux)  
 [Discord for Linux](https://discord.com/api/download?platform=linux&format=deb)  
 [Vencord](https://vencord.dev/download/)  
+[Pop Shell](https://github.com/pop-os/shell)
