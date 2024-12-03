@@ -9,6 +9,7 @@ git checkout master_noble
 make local-install
 ```
 
+<!--
 ### Gnome Shell Extensions
 ```bash
 sudo apt update && sudo apt upgrade -y
@@ -22,6 +23,7 @@ gnome-extensions enable dash-to-dock@micxgx.gmail.com
 gnome-extensions enable user-themes@gnome-shell-extensions.gcampax.github.com
 gnome-extensions enable sound-output-device-chooser@kgshank.net
 ```
+-->
 
 ### Nerdfont
 
