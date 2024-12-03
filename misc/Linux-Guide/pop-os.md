@@ -9,30 +9,18 @@ git checkout master_noble
 make local-install
 ```
 
-### Sound Input & Output Device Chooser
-```bash
-cd ~/.local/share/gnome-shell/extensions/
-
-# Remove older version
-rm -rf *sound-output-device-chooser*
-
-# Clone current version
-git clone https://github.com/kgshank/gse-sound-output-device-chooser.git
-
-# Install it
-cp -r gse-sound-output-device-chooser/sound-output-device-chooser@kgshank.net .
-rm -rf "gse-sound-output-device-chooser"
-```
-
 ### Gnome Shell Extensions
 ```bash
 sudo apt update && sudo apt upgrade -y
 sudo apt install gnome-shell-extensions gnome-tweaks -y
-# install Dash to Dock and User Themes 
+# install Dash to Dock, User Themes and Sound Input & Output Device Chooser
 gnome-extensions install https://extensions.gnome.org/extension/307/dash-to-dock/
 gnome-extensions install https://extensions.gnome.org/extension/750/user-themes/
+gnome-extensions install https://extensions.gnome.org/extension/906/sound-output-device-chooser/
+# Enable Extensions
 gnome-extensions enable dash-to-dock@micxgx.gmail.com
 gnome-extensions enable user-themes@gnome-shell-extensions.gcampax.github.com
+gnome-extensions enable sound-output-device-chooser@kgshank.net
 ```
 
 ### Nerdfont
