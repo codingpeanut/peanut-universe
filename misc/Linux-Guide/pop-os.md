@@ -13,7 +13,7 @@ make local-install
 ```bash
 sudo apt update && sudo apt upgrade -y
 sudo apt install gnome-shell-extensions gnome-tweaks -y
-# install Dash to Dock, User Themes and Sound Input & Output Device Chooser
+# Install Dash to Dock, User Themes and Sound Input & Output Device Chooser
 gnome-extensions install https://extensions.gnome.org/extension/307/dash-to-dock/
 gnome-extensions install https://extensions.gnome.org/extension/750/user-themes/
 gnome-extensions install https://extensions.gnome.org/extension/906/sound-output-device-chooser/
