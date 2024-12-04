@@ -11,6 +11,7 @@ make local-install
 
 ### Pop Launcher
 ```bash
+sudo apt install cargo just
 git clone https://github.com/pop-os/launcher.git
 cd launcher
 just build-release # Build
