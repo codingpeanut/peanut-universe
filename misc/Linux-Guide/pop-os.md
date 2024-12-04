@@ -29,7 +29,11 @@ gnome-extensions enable sound-output-device-chooser@kgshank.net
 ```bash
 sudo apt update
 sudo apt install ibus-chewing
-sudo apt install language-pack-zh-hant
+```
+```bash
+sudo apt update
+sudo apt install language-pack-zh-hant language-pack-zh-hant-base
+sudo dpkg-reconfigure locales
 ```
 
 ### Nerdfont
