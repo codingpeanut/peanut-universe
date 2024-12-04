@@ -9,6 +9,14 @@ git checkout master_noble
 make local-install
 ```
 
+### Pop Launcher
+```bash
+git clone https://github.com/pop-os/launcher.git
+cd launcher
+just build-release # Build
+just install # Install locally
+```
+
 <!--
 ### Gnome Shell Extensions
 ```bash
