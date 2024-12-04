@@ -1,7 +1,7 @@
 # My Pop!_OS Installation Script
 
 ### Pop OS Plugins
--pop shell
+- pop shell
 ```bash
 sudo apt install git node-typescript make gnome-shell-extension-prefs
 cd ~
