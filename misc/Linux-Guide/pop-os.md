@@ -1,6 +1,7 @@
 # My Pop!_OS Installation Script
 
-### Pop Shell
+### Pop OS Plugins
+-pop shell
 ```bash
 sudo apt install git node-typescript make gnome-shell-extension-prefs
 cd ~
@@ -8,17 +9,6 @@ git clone https://github.com/pop-os/shell.git
 cd shell
 git checkout master_noble
 make local-install
-```
-
-### Pop Launcher
-- launcher
-```bash
-sudo apt install cargo just
-cd ~
-git clone https://github.com/pop-os/launcher.git
-cd launcher
-just build-release # Build
-just install # Install locally
 ```
 - cosmic launcher
 ```bash
@@ -38,6 +28,15 @@ cd ~
 cd onagre
 cargo build --release --locked
 sudo mv target/release/onagre /usr/bin/onagre
+```
+- launcher
+```bash
+sudo apt install cargo just
+cd ~
+git clone https://github.com/pop-os/launcher.git
+cd launcher
+just build-release # Build
+just install # Install locally
 ```
 
 <!--
