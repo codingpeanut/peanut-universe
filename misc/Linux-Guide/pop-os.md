@@ -25,6 +25,13 @@ gnome-extensions enable sound-output-device-chooser@kgshank.net
 ```
 -->
 
+### Chewing
+```bash
+sudo apt update
+sudo apt install ibus-chewing
+sudo apt install language-pack-zh-hant
+```
+
 ### Nerdfont
 
 1. Download the Font
@@ -78,9 +85,17 @@ rm discord.deb
 sh -c "$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)"
 ```
 
+### Chrome
+```bash
+sudo apt install wget
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+```
+
 ### Sources
 [Debian/Ubuntu Packages](https://apt.syncthing.net/)  
 [Starting Syncthing Automatically](https://docs.syncthing.net/users/autostart.html#linux)  
 [Discord for Linux](https://discord.com/api/download?platform=linux&format=deb)  
 [Vencord](https://vencord.dev/download/)  
 [Pop Shell](https://github.com/pop-os/shell)
+[Chewing](https://medium.com/@scofield44165/ubuntu-20-04%E4%B8%AD%E6%96%B0%E5%A2%9E%E6%96%B0%E9%85%B7%E9%9F%B3%E8%BC%B8%E5%85%A5%E6%B3%95-add-chinese-chewing-in-ubuntu-20-04-5ce78563638b)
