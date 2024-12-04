@@ -32,8 +32,10 @@ sudo apt install ibus-chewing
 ```
 ```bash
 sudo apt update
-sudo apt install language-pack-zh-hant language-pack-zh-hant-base
-sudo dpkg-reconfigure locales
+sudo apt install language-pack-zh-hant
+sudo locale-gen zh_TW.UTF-8
+sudo update-locale LANG=zh_TW.UTF-8
+# sudo dpkg-reconfigure locales
 ```
 
 ### Nerdfont
