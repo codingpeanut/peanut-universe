@@ -38,3 +38,21 @@ college works
     ├── /personal    # Personal Projects or Documents  
     └── /temp        # Temporary Files, Miscellaneous Data  
 ```
+
+### How to contribute
+1. clone
+```bash
+git init
+git clone https://github.com/codingpeanut/peanut-universe.git
+```
+2. pull
+```bash
+git pull origin main
+```
+3. push
+```bash
+git pull origin main
+git add .
+git commit -m "add new file"
+git push origin main
+```
