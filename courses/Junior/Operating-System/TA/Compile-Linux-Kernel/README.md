@@ -25,14 +25,18 @@ cd linux-6.1
 ```
 
 ## 5. 進行 kernel 設定
+<!-- 
 - 複製現有的 `.config` 到當前目錄
 ```bash
 cp -v /boot/config-$(uname -r) .config
 ```
+-->
 - 依照需求更新 `.config`。這裡以關閉 `TRUSTED KEYS` 為例  
   找到 `Security options` -> `TRUSTED KEYS` 按空白鍵關閉功能
 ```bash
 make menuconfig
+```
+```plaintext
 s <enter>
 t <enter>
 <space><enter>
@@ -96,5 +100,5 @@ uname -r
 ```
 
 ## 參考資料
-https://phoenixnap.com/kb/build-linux-kernel  
-https://www.cyberciti.biz/faq/debian-redhat-linux-delete-kernel-command/
+- [How to Build Linux Kernel From Scratch {Step-By-Step Guide} - Goran Jevtic](https://phoenixnap.com/kb/build-linux-kernel)
+- [How to: Linux delete or remove kernel - Vivek Gite](https://www.cyberciti.biz/faq/debian-redhat-linux-delete-kernel-command/)
