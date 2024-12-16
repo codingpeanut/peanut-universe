@@ -7,7 +7,8 @@
 6. XOR
 
 INV for example
-1. schematic
+1. schematic  
+因為 `μₙ = 1350 cm²/V．s`, `μₚ = 480 cm²/V．s` -> `μₙ ≈ 2.5μₚ`，所以為了讓 `mos` 飽和區電流相同。會將 `pmos` 的 `w` 畫成 `nmos` 的三倍(2.5取整數)
 - `nmos`
 ![nmos](https://github.com/codingpeanut/peanut-universe/blob/main/courses/Junior/VLSI/assets/INV_param_nmos.png)
 - `pmos`
