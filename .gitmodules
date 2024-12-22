@@ -1,0 +1,3 @@
+[submodule "misc/personal"]
+	path = misc/personal
+	url = https://github.com/codingpeanut/private-notes.git
