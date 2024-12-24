@@ -77,19 +77,25 @@ void *consumer(void *param) {
 }
 
 // 主程式
-int main() {
-    int sleep_time, num_producers, num_consumers;
+int main(int argc, char *argv[]) {
+    if (argc != 4) {
+        fprintf(stderr, "Usage: %s <sleep_time> <num_producers> <num_consumers>\n", argv[0]);
+        return -1;
+    }
+
+    // 從命令列參數取得數值
+    int sleep_time = atoi(argv[1]);
+    int num_producers = atoi(argv[2]);
+    int num_consumers = atoi(argv[3]);
+
+    // 確認參數合法性
+    if (sleep_time <= 0 || num_producers <= 0 || num_consumers <= 0) {
+        fprintf(stderr, "Error: All arguments must be positive integers.\n");
+        return -1;
+    }
 
     // 設定隨機數生成器種子
     srand(time(NULL));
-
-    // 從 stdin 獲取參數
-    printf("Enter the program duration (in seconds): ");
-    scanf("%d", &sleep_time);
-    printf("Enter the number of producer threads: ");
-    scanf("%d", &num_producers);
-    printf("Enter the number of consumer threads: ");
-    scanf("%d", &num_consumers);
 
     // 初始化同步工具
     sem_init(&empty, 0, BUFFER_SIZE);
@@ -114,4 +120,3 @@ int main() {
     printf("Main program exiting.\n");
     return 0;
 }
-
