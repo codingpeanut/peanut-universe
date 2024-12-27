@@ -104,3 +104,12 @@ sem_wait(&sem);
 //release the mutex lock
 sem_post(&mutex);
 ```
+
+### Use `compile.sh` to compile HW3
+1. run `chmod +x compile.sh`
+2. run `./compile.sh`
+3. run `./s411440521HW3 <sleep_time> <num_producers> <num_consumers>`
+
+### Compile directly
+1. run `gcc -o s411440521HW3 main.c lib/buffer.c -Iinclude -lpthread`
+2. run `./s411440521HW3 <sleep_time> <num_producers> <num_consumers>`
