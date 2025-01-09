@@ -11,14 +11,14 @@
 ## 主要有以下幾個部分
 
 ### 1. Input  
-![input.png](https://github.com/codingpeanut/gist-images/blob/d9e2ef470d3fb793276ffb4b7f4fcdcadfc785a1/Note/Guitar/raw/input.png?raw=true)  
+![input.png](https://github.com/codingpeanut/peanut-universe/tree/main/misc/projects/Guitar/EFX-Pedal/assets/input.png)  
 **用途:**  
 接收來自吉他的輸入訊號，並濾除輸入訊號的雜訊。  
 **原理:**  
 利用限流電阻防止輸入電壓過大。再通過濾波電容濾除雜訊，避免後續雜訊被放大。  
 
 ### 2. Power  
-![power.png](https://github.com/codingpeanut/gist-images/blob/d9e2ef470d3fb793276ffb4b7f4fcdcadfc785a1/Note/Guitar/raw/power.png?raw=true)  
+![power.png](https://github.com/codingpeanut/peanut-universe/tree/main/misc/projects/Guitar/EFX-Pedal/assets/power.png)  
 **用途:**  
 提供運算放大器穩定的工作電壓。  
 **原理:**  
@@ -30,7 +30,7 @@
 	
 
 ### 3. Volume  
-![volume-control.png](https://github.com/codingpeanut/gist-images/blob/d9e2ef470d3fb793276ffb4b7f4fcdcadfc785a1/Note/Guitar/raw/volume-control.png?raw=true)  
+![volume-control.png](https://github.com/codingpeanut/peanut-universe/tree/main/misc/projects/Guitar/EFX-Pedal/assets/volume-control.png)  
 **用途:**  
 控制音量大小  
 **原理:**  
@@ -39,7 +39,7 @@
 `輸出電容`串聯`Volume旋鈕`  
 
 ### 4. Gain  
-![gain-control.png](https://github.com/codingpeanut/gist-images/blob/d9e2ef470d3fb793276ffb4b7f4fcdcadfc785a1/Note/Guitar/raw/gain-control.png?raw=true)  
+![gain-control.png](https://github.com/codingpeanut/peanut-universe/tree/main/misc/projects/Guitar/EFX-Pedal/assets/gain-control.png)  
 **用途:**  
 調整增益大小  
 **原理:**  
@@ -51,7 +51,7 @@
 `it’s good practice to put a small capacitor in parallel in parallel with the diodes and gain pot, as this helps sort of make the whole op amp circuit a little more stable, a little quieter, and controls some of the “fizz” inherent when clipping a signal.`  
 
 ### 5. Tone  
-![tone-control.png](https://github.com/codingpeanut/gist-images/blob/d9e2ef470d3fb793276ffb4b7f4fcdcadfc785a1/Note/Guitar/raw/tone-control.png?raw=true)  
+![tone-control.png](https://github.com/codingpeanut/peanut-universe/tree/main/misc/projects/Guitar/EFX-Pedal/assets/tone-control.png)  
 **用途:**  
 控制高頻多寡，以調整聲音亮度  
 **原理:**  

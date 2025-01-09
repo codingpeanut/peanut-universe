@@ -1,0 +1,11 @@
+{
+	"nodes":[
+		{"id":"20007f7101d79163","x":-186,"y":531,"width":400,"height":400,"type":"file","file":"courses/Junior/Banking-and-Money/CH4-利率的行為.md"},
+		{"id":"e68852ae041eff37","x":325,"y":531,"width":400,"height":400,"type":"file","file":"courses/Junior/Banking-and-Money/CH5-銀行的種類、結構與整合.md"},
+		{"id":"34a6356e519e3181","x":840,"y":531,"width":400,"height":400,"type":"file","file":"courses/Junior/Banking-and-Money/CH6-商業銀行的業務與風險.md"},
+		{"id":"c3e00134dfa683e0","x":-186,"y":0,"width":400,"height":400,"type":"file","file":"courses/Junior/Banking-and-Money/CH1-貨幣的重要性.md"},
+		{"id":"f33d6df90a24cc90","x":840,"y":0,"width":400,"height":400,"type":"file","file":"courses/Junior/Banking-and-Money/CH3-金融中介.md"},
+		{"id":"9d69b538fd537e54","x":325,"y":0,"width":400,"height":400,"type":"file","file":"courses/Junior/Banking-and-Money/CH2-金融體系概論.md"}
+	],
+	"edges":[]
+}
